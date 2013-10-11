@@ -1,0 +1,1 @@
+Assets/Standard Assets/Toon Shading/Sources/Shaders/Toony-Lighted.shader
