@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\ForceX Hex Grid\Scripts\FX_HexDistance.js">
+    <Files>
+      <File FileName="Assets\ConquestGeneral Scripts\gameManager.cs" Line="25" Column="34" />
+      <File FileName="Assets\Standard Assets\ForceX Hex Grid\Scripts\FX_Map_Manager.js" Line="234" Column="4" />
+      <File FileName="Assets\Standard Assets\ForceX Hex Grid\Scripts\FX_HexInfo.js" Line="12" Column="10" />
+      <File FileName="Assets\Standard Assets\ForceX Hex Grid\Scripts\FX_HexDistance.js" Line="52" Column="4" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
