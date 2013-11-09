@@ -5,6 +5,9 @@ public class GeneralEvents : MonoBehaviour {
 	
 	
 	private BoardMaker boardInfo;
+	
+	public Vector2 myCoords;
+	
 	// Use this for initialization
 	void Start () {
 		boardInfo = GameObject.Find ("BoardManager").GetComponent<BoardMaker>();
@@ -22,11 +25,13 @@ public class GeneralEvents : MonoBehaviour {
 		{
 			this.gameObject.rigidbody.isKinematic = true;
 			general.gameObject.rigidbody.isKinematic = true;
+			boardInfo.inCombat = true;
 		}
 		else if (this.gameObject.tag == "blue general" && general.gameObject.tag == "red general")
 		{
 			this.gameObject.rigidbody.isKinematic = true;
 			general.gameObject.rigidbody.isKinematic = true;
+			boardInfo.inCombat = true;
 		}
 	}
 	
@@ -50,6 +55,11 @@ public class GeneralEvents : MonoBehaviour {
 		{
 			boardInfo.blueGeneralRedBase = true;
 		}
+	}
+	
+	void onCollisionExit(Collision general)
+	{
+		boardInfo.inCombat = false;
 	}
 	
 	void OnTriggerExit()

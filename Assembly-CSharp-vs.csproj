@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{B9A365E7-22CD-78A5-33E4-30DBC600D3FD}</ProjectGuid>
+	<ProjectGuid>{9C8A6781-786B-8DC6-940F-794D3F004B37}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BoardMaker.cs" />
      <Compile Include="Assets\Scripts\CameraManager.cs" />
+     <Compile Include="Assets\Scripts\CombatBoard.cs" />
      <Compile Include="Assets\Scripts\GeneralEvents.cs" />
      <Compile Include="Assets\Scripts\HexEvents.cs" />
   </ItemGroup>

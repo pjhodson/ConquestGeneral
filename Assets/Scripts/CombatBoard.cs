@@ -2,18 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BoardMaker : MonoBehaviour {
+public class CombatBoard : MonoBehaviour {
 
 //following public variable is used to store the hex model prefab;
     //instantiate it by dragging the prefab on this variable using unity editor
     public GameObject Hex;
-	public GameObject General;
-	public GameObject Base;
-	public CombatBoard theCombatBoard;
-	
-	private int playerTurn;
-	private int turnNumber;
-	
+		
     //next two variables can also be instantiated using unity editor
     public int gridWidthInHexes = 10;
     public int gridHeightInHexes = 10;
@@ -26,68 +20,12 @@ public class BoardMaker : MonoBehaviour {
     private float hexWidth;
     private float hexHeight;
 	
-	private GameObject RedGeneral;
-	private GameObject BlueGeneral;
-	
-	private GameObject RedBase;
-	private GameObject BlueBase;
-	
-	public bool redGeneralHome,redGeneralBlueBase,blueGeneralHome,blueGeneralRedBase;
-	
-	public bool inCombat;
-	private bool combatCamMoved;
- 
 	//The grid should be generated on game start
     void Awake()
     {
-		redGeneralHome = redGeneralBlueBase = blueGeneralHome = blueGeneralRedBase = false;
-		inCombat = false;
-		combatCamMoved = false;
-		
-		playerTurn = Random.Range (1,4);
-		if(playerTurn % 2 == 0)
-		{
-			playerTurn = 1; //1 RED
-		}
-		else playerTurn = 2; //2 BLUE
-		
-		
-		
-		turnNumber = 1;
-		
 		hexArray = new GameObject[gridWidthInHexes,gridHeightInHexes];
         setSizes();
         createGrid();
-		
-		
-		//Instantiate Generals
-		RedGeneral = (GameObject)Instantiate (General,calcWorldCoord (new Vector2(0,0)) + new Vector3(0,0.5f,0),Quaternion.identity);
-		RedGeneral.name = "Red General";
-		RedGeneral.tag = "red general";
-		RedGeneral.renderer.material.color = Color.red;
-		
-		BlueGeneral = (GameObject)Instantiate (General, calcWorldCoord (new Vector2(gridWidthInHexes-1,gridHeightInHexes-1)) + new Vector3(0,0.5f,0), Quaternion.identity);
-		BlueGeneral.name = "Blue General";
-		BlueGeneral.tag = "blue general";
-		BlueGeneral.renderer.material.color = Color.blue;
-		
-		//Instantiate Bases
-		RedBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(1,1)) + new Vector3(0,.75f,0),Quaternion.identity);
-		RedBase.name = "Red Base";
-		RedBase.tag = "red base";
-		RedBase.renderer.material.color = Color.red;
-		
-		BlueBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(gridWidthInHexes - 2, gridHeightInHexes -2)) + new Vector3(0,.75f,0),Quaternion.identity);
-		BlueBase.name = "Blue Base";
-		BlueBase.tag = "blue base";
-		BlueBase.renderer.material.color = Color.blue;
-		
-		
-		
-		if(playerTurn == 2)
-		{
-			StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
-		}
 	}
 	
     //Method to initialise Hexagon width and height
@@ -104,7 +42,7 @@ public class BoardMaker : MonoBehaviour {
     {
         Vector3 initPos;
         //the initial position will be in the left upper corner
-        initPos = new Vector3(-hexWidth * gridWidthInHexes / 2f + hexWidth / 2, 0, gridHeightInHexes / 2f * hexHeight - hexHeight / 2);
+        initPos = new Vector3(-hexWidth * gridWidthInHexes / 2f + hexWidth / 2 + this.transform.position.x, 0, gridHeightInHexes / 2f * hexHeight - hexHeight / 2 + this.transform.position.z);
         return initPos;
     }
  
@@ -182,7 +120,7 @@ public class BoardMaker : MonoBehaviour {
 	
 	public void hexSelected(Vector2 SelectedCoords)
 	{
-		if(selectedHexes.Count == 0 && 
+		/*if(selectedHexes.Count == 0 && 
 			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<HexEvents>().redGeneralOnMe == true) && playerTurn == 1 && !generalMoved)
 			{
 				selectedHexes.Add (SelectedCoords);
@@ -202,7 +140,7 @@ public class BoardMaker : MonoBehaviour {
 		{
 			Debug.Log ("Invalid Move");
 			deselectAll();
-		}
+		}*/
 	}
 	
 	public void hexDeselected(Vector2 DeselectCoords)
@@ -232,37 +170,18 @@ public class BoardMaker : MonoBehaviour {
 		}
 	}
 	
-	IEnumerator moveGeneral(GameObject which, Vector3 movePos)
-	{
-		if(which.name == "Red General")
-		{
-			General = RedGeneral;
-		}
-		else General = BlueGeneral;
-		
-		Debug.Log (which.name);
-		
-		while(General.transform.position != movePos)
-		{
-			General.transform.position = Vector3.MoveTowards (General.transform.position, movePos, 10 * Time.deltaTime);
-			yield return null;
-		}
-		General.transform.position = movePos;
-	}
 	
-	private bool generalMoved = false;
 	void moveHandler(string whoseTurn)
 	{
-		if(whoseTurn == "red") 
+		/*if(whoseTurn == "red") 
 		{
 			if(selectedHexes.Count == 2)
 			{
 				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
-					GameObject selectedGeneral = null;
+					string selectedGeneral = "";
 					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<HexEvents>().redGeneralOnMe == true)
 					{
-						selectedGeneral = RedGeneral;
-						RedGeneral.GetComponent<GeneralEvents>().myCoords = selectedHexes[1];
+						selectedGeneral = "red";
 					}
 					
 					Debug.Log ("Moving General");
@@ -281,11 +200,10 @@ public class BoardMaker : MonoBehaviour {
 			if(selectedHexes.Count == 2)
 			{
 				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
-					GameObject selectedGeneral = null;
+					string selectedGeneral = "";
 					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<HexEvents>().blueGeneralOnMe == true)
 					{
-						selectedGeneral = BlueGeneral;
-						BlueGeneral.GetComponent<GeneralEvents>().myCoords = selectedHexes[1];
+						selectedGeneral = "blue";
 					}
 					
 					Debug.Log ("Moving General");
@@ -297,23 +215,12 @@ public class BoardMaker : MonoBehaviour {
 				selectedHexes.Clear();
 				deselectAll();
 			}
-		}
+		}*/
 	}
 	
 	void Update()
 	{
-		if(playerTurn == 1) 
-		{
-			moveHandler ("red");
-		}
-		else moveHandler ("blue");	
-		
-		if(inCombat && !combatCamMoved)
-		{
-			Debug.Log ("LERPY LERP LERP");
-			StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
-			combatCamMoved = true;
-		}
+				
 	}
 	
 	IEnumerator camLerp(Vector3 movePos)
@@ -324,35 +231,5 @@ public class BoardMaker : MonoBehaviour {
 			yield return null;
 		}
 	}
-	
-	//GUI STUFF
-	void OnGUI() {
-		string turnNotifier;
-		if(playerTurn == 1)
-		{
-			turnNotifier = "Red's Turn";
-		}
-		else turnNotifier = "Blue's Turn";
-		
-		GUI.Box (new Rect(Screen.width/4, 0, Screen.width/2, 25), "");
-		GUI.Label (new Rect(Screen.width/4+10, 0, 100,25), turnNotifier);
-		GUI.Label (new Rect(Screen.width/4+110, 0, 100,25), "Turn " + turnNumber.ToString ());
-		
-		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
-			if(playerTurn == 1)
-			{
-				playerTurn = 2;
-				StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
-			}
-			else 
-			{
-				playerTurn = 1;
-				StartCoroutine(camLerp(new Vector3(RedGeneral.transform.position.x, Camera.main.transform.position.y, RedGeneral.transform.position.z)));
-			}
-			
-			turnNumber++;
-			generalMoved = false; //set general back to being able to move
-		}
-	
-	}
+
 }
