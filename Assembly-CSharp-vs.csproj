@@ -49,6 +49,12 @@
      <Compile Include="Assets\Scripts\CombatBoard.cs" />
      <Compile Include="Assets\Scripts\GeneralEvents.cs" />
      <Compile Include="Assets\Scripts\HexEvents.cs" />
+     <Compile Include="Assets\Scripts\mainMenu.cs" />
+     <Compile Include="Assets\Scripts\mmHexGrid.cs" />
+     <None Include="Assets\Art Assets\Models &amp; Prefabs\Panzer_II_Ausf_F\Shaders\Panzer Tracks.shader" />
+     <None Include="Assets\Art Assets\Models &amp; Prefabs\Panzer_II_Ausf_F\readme.txt" />
+     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+     <None Include="Assets\Art Assets\Models &amp; Prefabs\license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
