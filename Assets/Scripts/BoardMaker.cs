@@ -36,6 +36,7 @@ public class BoardMaker : MonoBehaviour {
 	
 	public bool inCombat;
 	private bool combatCamMoved;
+	
  
 	//The grid should be generated on game start
     void Awake()
@@ -90,7 +91,7 @@ public class BoardMaker : MonoBehaviour {
 			StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
 		}
 	}
-	
+		
     //Method to initialise Hexagon width and height
     void setSizes()
     {
@@ -303,18 +304,18 @@ public class BoardMaker : MonoBehaviour {
 	
 	void Update()
 	{
-		if(playerTurn == 1) 
-		{
-			moveHandler ("red");
-		}
-		else moveHandler ("blue");	
+			if(playerTurn == 1) 
+			{
+				moveHandler ("red");
+			}
+			else moveHandler ("blue");	
 		
-		if(inCombat && !combatCamMoved)
-		{
-			Debug.Log ("LERPY LERP LERP");
-			StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
-			combatCamMoved = true;
-		}
+			if(inCombat && !combatCamMoved)
+			{
+				Debug.Log ("LERPY LERP LERP");
+				StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
+				combatCamMoved = true;
+			}
 	}
 	
 	IEnumerator camLerp(Vector3 movePos)
