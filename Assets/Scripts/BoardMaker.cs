@@ -82,7 +82,8 @@ public class BoardMaker : MonoBehaviour {
 		BlueBase.tag = "blue base";
 		BlueBase.renderer.material.color = Color.blue;
 		
-		
+		RedGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+		BlueGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		
 		if(playerTurn == 2)
 		{
