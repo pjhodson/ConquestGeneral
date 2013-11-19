@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Conquest General by pjhodson</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Conquest General</h1>
+          <h2>a perfect marriage of hex grids and strategy</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/pjhodson/ConquestGeneral/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/pjhodson/ConquestGeneral/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/pjhodson/ConquestGeneral" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="general-conquest-games" class="anchor" href="#general-conquest-games"><span class="octicon octicon-link"></span></a>GENERAL CONQUEST GAMES</h1>
+
+<h2>
+<a name="design-document-for" class="anchor" href="#design-document-for"><span class="octicon octicon-link"></span></a>design document for</h2>
+
+<h1>
+<a name="conquest-general" class="anchor" href="#conquest-general"><span class="octicon octicon-link"></span></a>CONQUEST GENERAL</h1>
+
+<h2>
+<a name="a-perfect-marriage-of-hex-grids-and-strategy" class="anchor" href="#a-perfect-marriage-of-hex-grids-and-strategy"><span class="octicon octicon-link"></span></a>a perfect marriage of hex grids and strategy</h2>
+
+<h3>
+<a name="written-by" class="anchor" href="#written-by"><span class="octicon octicon-link"></span></a>written by</h3>
+
+<h3>
+<a name="peter-hodson---project-manager" class="anchor" href="#peter-hodson---project-manager"><span class="octicon octicon-link"></span></a>peter hodson - project manager</h3>
+
+<h3>
+<a name="daniel-reed---programming-lead" class="anchor" href="#daniel-reed---programming-lead"><span class="octicon octicon-link"></span></a>daniel reed - programming lead</h3>
+
+<h3>
+<a name="daniel-zhao---programmer" class="anchor" href="#daniel-zhao---programmer"><span class="octicon octicon-link"></span></a>daniel zhao - programmer</h3>
+
+<h3>
+<a name="michael-jacobs---media-specialist" class="anchor" href="#michael-jacobs---media-specialist"><span class="octicon octicon-link"></span></a>michael jacobs - media specialist</h3>
+
+<p>© 2013 GENERAL CONQUEST GAMES
+version 0.1
+revised 10/7/2013</p>
+
+<h1>
+<a name="game-overview" class="anchor" href="#game-overview"><span class="octicon octicon-link"></span></a>game overview</h1>
+
+<h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>introduction</h2>
+
+<p>The world has been mostly covered with water as global warming has melted the polar ice caps. You are on a mission for your country to take what remains of the dry land. It seems the other countries want the highly contested land as well… Do whatever you deem necessary to make this a reality. </p>
+
+<p>Conquest General is a Turn Based Strategy game, set in a near-apocalyptic future where the polar ice caps have melted due to global warming. Mankind does what it does best and fights over the few remaining resources.</p>
+
+<p>You and your sworn enemy, therefore, are at WAR. </p>
+
+<h2>
+<a name="aesthetic-goals" class="anchor" href="#aesthetic-goals"><span class="octicon octicon-link"></span></a>aesthetic goals</h2>
+
+<p>As you and your enemies are at WAR, competition is our main aesthetic goal. The thrill of building up an army and executing a grand master strategy which will allow you to watch your enemies burn should be reason enough for this game to be fun.  </p>
+
+<p>Assuming your enemy isn’t completely incompetent, there will also be elements of challenge involved.</p>
+
+<p>There may also be some sensation involved, depending on the art and sound assets we end up incorporating in the final build of the game.</p>
+
+<h2>
+<a name="dynamics" class="anchor" href="#dynamics"><span class="octicon octicon-link"></span></a>dynamics</h2>
+
+<p>We anticipate users will use one of several types of strategies while playing CONQUEST GENERAL. We expect users to either play as a rusher, a balanced player, or a turtle.</p>
+
+<p>A typical rusher will build a vast quantity of low cost units quickly, and rush to the opponent, hoping that his sheer numbers will outperform whatever the opponent has managed to build thus far.</p>
+
+<p>A balanced player will build low cost units at the beginning, and also have long term goals in mind. He or she may choose to build some larger units and have a diversified army rather than building a lot of the cheapest units and hurling them all at his or her enemy.</p>
+
+<p>A turtle will sit in his base, much like a turtle sits in its shell, and build big units until he or she feels that there is no force under the sun that could possibly defeat his or her army.  Once he or she has reached that point, he or she sets about defeating the enemy.</p>
+
+<p>These play styles often conflict and will result in a large amount of challenge and competition. We anticipate the ability to play well and defeat enemies using any of these play styles will make CONQUEST GENERAL a lot of fun and also give it replay value. </p>
+
+<h1>
+<a name="mechanics" class="anchor" href="#mechanics"><span class="octicon octicon-link"></span></a>mechanics</h1>
+
+<h2>
+<a name="gameplay" class="anchor" href="#gameplay"><span class="octicon octicon-link"></span></a>gameplay</h2>
+
+<h3>
+<a name="game-screens" class="anchor" href="#game-screens"><span class="octicon octicon-link"></span></a>game screens</h3>
+
+<p>There are 3 main screens in the game: The main game screen, the base screen, and the combat screen.</p>
+
+<h3>
+<a name="base-screen" class="anchor" href="#base-screen"><span class="octicon octicon-link"></span></a>base screen</h3>
+
+<p>You have to manage your base, at which you construct buildings and train units. </p>
+
+<p>These units can then be picked up by your Generals to roam the game board looking for power ups and enemies.</p>
+
+<p>The General has to be on 
+base to pick up troops!</p>
+
+<h3>
+<a name="main-screen" class="anchor" href="#main-screen"><span class="octicon octicon-link"></span></a>main screen</h3>
+
+<p>Generals move from square to square, with the ability to pick up power ups to make their armies more powerful. </p>
+
+<h3>
+<a name="combat-board" class="anchor" href="#combat-board"><span class="octicon octicon-link"></span></a>combat board</h3>
+
+<p>The combat board is where all combat will take place. Units have set movement and attack ranges. Players will take turns moving and attacking. Pictured is an impassable forest; terrain will have randomly generated obstacles to increase the strategy in combat.</p>
+
+<h2>
+<a name="the-general" class="anchor" href="#the-general"><span class="octicon octicon-link"></span></a>the general</h2>
+
+<p>The General roams the game screen, looking for enemies, with the ultimate goal of destroying the enemy base. He takes with him TEN (10) units as his army. These units need not clutter up the main game screen, however, as they are used in combat only.
+the base</p>
+
+<p>Players each have a base. At this base, they can create buildings and train troops. The training time for each unit is listed below, as is the building time for each building. If the general has his army of TEN (10) troops or is not at the base (touching one of the hexes occupied by the base) then up to TWENTY (20)  troops trained will wait at the base until the general returns for reinforcements.
+starting the game</p>
+
+<p>Players start the game with 28 points with which they can build a starting army.  Players can choose units whose total hit points do not exceed 28 points. We limit 1 airplane unit per starting army. </p>
+
+<p>Example:</p>
+
+<p>Player A (Rusher) decides to start with as many low cost units as they can. They choose to start off with 7 grunts. Grunts have 4 hit points each, so player A uses all of his starting army points.</p>
+
+<p>Player B (Balanced/Turtle) decides to start off with two tanks which are 10 HP each, and one airplane (8hp). They use all of their starting army points also. </p>
+
+<p>A player cannot spend more than their starting army points. Any remaining points are discarded.
+taking a turn</p>
+
+<p>Each player takes turns to do various things. When not in combat, the game is played on the main game screen. The player controls his or her general in movement around the game screen. Combat is initiated when a general moves into the square of the opposing player’s general. In a turn, a player may start building ONE (1) building, start training a unit at each building he or she already owns, and move the general on the main board. this may or may not lead to combat. Exiting combat immediately ends the attacking player’s turn, so plan carefully. Once a player’s turn is over, the other player takes his or her turn.</p>
+
+<h2>
+<a name="building-a-building" class="anchor" href="#building-a-building"><span class="octicon octicon-link"></span></a>building a building</h2>
+
+<p>Buildings are built at bases. They produce units. They take some time to build.</p>
+
+<h3>
+<a name="barracks" class="anchor" href="#barracks"><span class="octicon octicon-link"></span></a>barracks</h3>
+
+<p>time to build: 2 turns.
+produces: Grunts.</p>
+
+<h3>
+<a name="factory" class="anchor" href="#factory"><span class="octicon octicon-link"></span></a>factory</h3>
+
+<p>time to build: 3 turns.
+produces: Tanks.</p>
+
+<h3>
+<a name="hangar" class="anchor" href="#hangar"><span class="octicon octicon-link"></span></a>hangar</h3>
+
+<p>time to build: 5 turns.
+produces: Airplanes.</p>
+
+<h2>
+<a name="combat" class="anchor" href="#combat"><span class="octicon octicon-link"></span></a>combat</h2>
+
+<p>Every unit gets a movement and an attack per turn. A unit does not have to move nor does it have to attack.</p>
+
+<p>Combat is won when all enemy units are killed (the General cannot be killed in combat) or if the enemy successfully rolls a retreat check ( 8 or higher on a 1d12 roll )</p>
+
+<p>The defeated general is left to rally his troops (if he has any) or return to base to reinforce or get ready for the final showdown.</p>
+
+<p>The final showdown occurs when an enemy general enters a square occupied by the other player’s base. Final showdown is the same as any normal combat, except the defending player can use all troops stored at the base in the battle. There is also a base unit on the hex grid which has no attack or movement, and has 30 HP.  If the defender’s base is destroyed, he or she loses, the game is over, and the attacking player wins. </p>
+
+<h1>
+<a name="unit-ranges-and-combat-statistics" class="anchor" href="#unit-ranges-and-combat-statistics"><span class="octicon octicon-link"></span></a>unit ranges and combat statistics</h1>
+
+<h2>
+<a name="grunt" class="anchor" href="#grunt"><span class="octicon octicon-link"></span></a>grunt</h2>
+
+<p>4 HP
+Movement - 2 hex
+Train time: 2 turns
+Attack (ground only):
+    Ranged (2 hex range): 1d4
+    Melee (adjacent): 1d6</p>
+
+<h2>
+<a name="tank" class="anchor" href="#tank"><span class="octicon octicon-link"></span></a>tank</h2>
+
+<p>10 HP
+Movement - 3 hex
+Train time: 5 turns
+Attack (ground or air):
+    Ranged (ground) (3 hex range): 1d10
+    Ranged (air) (3 hex range): 1d6</p>
+
+<h2>
+<a name="airplane" class="anchor" href="#airplane"><span class="octicon octicon-link"></span></a>airplane</h2>
+
+<p>8HP
+Movement - 5 hex
+Train time: 7 turns
+Attack(ground or air)
+    Ranged (air) (3 hex range): 1d6
+    Ground (occupied hex): 1d12; Splash Damage(adjacent hex): 1d4
+    Kamikaze attack (any hex), sacrifice plane: 1d20</p>
+
+<h2>
+<a name="sample-combat" class="anchor" href="#sample-combat"><span class="octicon octicon-link"></span></a>sample combat</h2>
+
+<p>The players arrange the units their general had with him on the combat screen.</p>
+
+<p>The attacking player then has a move and an attack action per unit. He or she does not have to move or attack with any units. </p>
+
+<p>If the opposing general is a lily-livered yellow belly, he or she can roll a 1d12 retreat check. 8 or higher is a successful retreat and they exit combat and get to move 3 spaces on the main game screen.</p>
+
+<p>Players take turns moving and attacking with their units until all of one player’s units are destroyed or a player successfully retreats.</p>
+
+<p>winning the game
+When a player gets a general to the other player’s base a final battle will take place</p>
+
+<p>The defending player can fight with every unit stored within his base</p>
+
+<p>The base has 30 HP and does occupy a spot on the combat grid unlike a general</p>
+
+<p>If the attacking player destroys the base the game is over!</p>
+
+<h1>
+<a name="user-interface" class="anchor" href="#user-interface"><span class="octicon octicon-link"></span></a>user interface</h1>
+
+<h2>
+<a name="main-menu" class="anchor" href="#main-menu"><span class="octicon octicon-link"></span></a>main menu</h2>
+
+<p>The main menu greets the user upon launch. It will be fairly simple, as Unity takes care of all of the graphics options and resolution before the game is launched. As such, our main menu will contain our game’s logo, a play button, and an exit button. The right half of the picture here shows desired hover feedback for the user. A 3D effect will be applied on click.</p>
+
+<h2>
+<a name="building-selection-at-base" class="anchor" href="#building-selection-at-base"><span class="octicon octicon-link"></span></a>building selection at base</h2>
+
+<p>(e.g. which building would you like to build at this spot?)
+When clicking on an open plot of land within the base board the player will have a popup menu to select which building they would like to build on that plot of land.</p>
+
+<h2>
+<a name="unit-selection-from-building" class="anchor" href="#unit-selection-from-building"><span class="octicon octicon-link"></span></a>unit selection from building</h2>
+
+<p>(e.g. click barracks sel3ect grunt)
+Clicking on an already built building will popup a unit build menu allowing the player to select which unit to build in that building.</p>
+
+<h2>
+<a name="unit-stats--selection" class="anchor" href="#unit-stats--selection"><span class="octicon octicon-link"></span></a>unit stats &amp; selection</h2>
+
+<p>In the battle board when a player hovers over a unit they will have a display of the stats (movement, damage, health) of that unit. Also this unit will be selected for movement when clicked on.</p>
+
+<h2>
+<a name="attack-selector-rangedmelee-landair-normalkamikaze" class="anchor" href="#attack-selector-rangedmelee-landair-normalkamikaze"><span class="octicon octicon-link"></span></a>attack selector (Ranged/Melee Land/Air Normal/Kamikaze)</h2>
+
+<p>Highlighted area when a unit is told to attack, showing the range of the different attacks it can perform.</p>
+
+<h2>
+<a name="turn-counter" class="anchor" href="#turn-counter"><span class="octicon octicon-link"></span></a>turn counter</h2>
+
+<p>Some counter on the bottom of the game counting the turns that go by.</p>
+
+<h2>
+<a name="player-turn-indicator" class="anchor" href="#player-turn-indicator"><span class="octicon octicon-link"></span></a>player turn indicator</h2>
+
+<p>Some kind of indication letting the player know that it is their turn, e.g. “RED TURN” or “BLUE TURN”
+grid overlays
+(regular + hex)
+Showing the borders of the hexes on the field.</p>
+
+<h2>
+<a name="tutorial-popups-time-permitting-if-enabled" class="anchor" href="#tutorial-popups-time-permitting-if-enabled"><span class="octicon octicon-link"></span></a>tutorial popups (time permitting) (if enabled)</h2>
+
+<p>Players will have the option to turn on or off the tutorial within the in game options menu. (It is important to note that there is no options menu from the main menu.) When enabled the game will display popups with helpful tips on how to play the game. How to build / move units, how combat works… ect. These popups will only come up 1 time unless reenabled within the options menu.</p>
+
+<h2>
+<a name="build-queue-time-permitting" class="anchor" href="#build-queue-time-permitting"><span class="octicon octicon-link"></span></a>build queue (time permitting)</h2>
+
+<p>From the main board and the base board the player will have a sidebar informing him of current build times for units and buildings.</p>
+
+<h2>
+<a name="art-and-sound" class="anchor" href="#art-and-sound"><span class="octicon octicon-link"></span></a>art and sound</h2>
+
+<p>Michael Jacobs will be responsible for the following assets:</p>
+
+<h3>
+<a name="art-assets" class="anchor" href="#art-assets"><span class="octicon octicon-link"></span></a>art assets</h3>
+
+<p>Game logo
+All units (red + blue versions)
+All buildings (red + blue versions)
+Terrain background (grid will be overlaid)
+Combat obstacles (forests, mountains, etc)
+Bases (red + blue)</p>
+
+<h3>
+<a name="sound-assets" class="anchor" href="#sound-assets"><span class="octicon octicon-link"></span></a>sound assets</h3>
+
+<p>Theme music
+Combat music
+Base music
+UI Feedback (Click or Blip or something on button hover/press)
+Unit Sounds
+   Unit Trained
+   Unit Firing
+   Unit Dying
+Ambient FX (Rushing river, etc)
+General Movement (Marching)
+Building Completed</p>
+
+<h2>
+<a name="scripts" class="anchor" href="#scripts"><span class="octicon octicon-link"></span></a>scripts</h2>
+
+<p>Daniel Reed and Daniel Zhao will be responsible for the following scripts:</p>
+
+<h3>
+<a name="main-board" class="anchor" href="#main-board"><span class="octicon octicon-link"></span></a>main board</h3>
+
+<h3>
+<a name="general-at-base" class="anchor" href="#general-at-base"><span class="octicon octicon-link"></span></a>general at base?</h3>
+
+<p>If the general is at the base, user can add troops to general in the Base screen. This script will therefore need to interact with the Base screen.</p>
+
+<h3>
+<a name="general-movement" class="anchor" href="#general-movement"><span class="octicon octicon-link"></span></a>general movement</h3>
+
+<p>This script will control the generals’ movements throughout the world, checking for invalid moves and correcting them post haste.</p>
+
+<h3>
+<a name="powerup-pickup" class="anchor" href="#powerup-pickup"><span class="octicon octicon-link"></span></a>powerUp pickup</h3>
+
+<p>This will be a check to see if the player has picked up a powerup.  The powerups will interact with mostly the combat board but might interact with all boards.</p>
+
+<h3>
+<a name="player-turns" class="anchor" href="#player-turns"><span class="octicon octicon-link"></span></a>player turns</h3>
+
+<p>This script will handle who’s turn it is. It will need to be accessed by all scripts.</p>
+
+<h3>
+<a name="unit-collision" class="anchor" href="#unit-collision"><span class="octicon octicon-link"></span></a>unit collision</h3>
+
+<p>This will be used to detect if a general has collided with another general or a base.</p>
+
+<h2>
+<a name="user-interface-1" class="anchor" href="#user-interface-1"><span class="octicon octicon-link"></span></a>user interface</h2>
+
+<p>This script will handle all of the UI elements on the main board.</p>
+
+<h2>
+<a name="combat-board-1" class="anchor" href="#combat-board-1"><span class="octicon octicon-link"></span></a>combat board</h2>
+
+<h3>
+<a name="unit-placement" class="anchor" href="#unit-placement"><span class="octicon octicon-link"></span></a>unit placement</h3>
+
+<p>Players will be able to place units on any valid hex on their half of the board.</p>
+
+<h3>
+<a name="unit-movement" class="anchor" href="#unit-movement"><span class="octicon octicon-link"></span></a>unit movement</h3>
+
+<p>Units will only be able to move within their set limits. This script will define those limits and perform the movements.</p>
+
+<h3>
+<a name="damage-calculation--health-calculation" class="anchor" href="#damage-calculation--health-calculation"><span class="octicon octicon-link"></span></a>damage calculation &amp; health calculation</h3>
+
+<p>This script will calculate dice rolls for damage and affect the health of attacked units.</p>
+
+<h3>
+<a name="particles-for-explosions" class="anchor" href="#particles-for-explosions"><span class="octicon octicon-link"></span></a>particles for explosions</h3>
+
+<p>We will want to instantiate particle effects on units that explode. This might not be a separate script, but part of damage calculation.</p>
+
+<h3>
+<a name="random-terrain-impassible-land" class="anchor" href="#random-terrain-impassible-land"><span class="octicon octicon-link"></span></a>random terrain (impassible land)</h3>
+
+<p>Generates a random combat board with impassible terrain or other obstacles on the map.</p>
+
+<h3>
+<a name="player-turns-1" class="anchor" href="#player-turns-1"><span class="octicon octicon-link"></span></a>player turns</h3>
+
+<p>This script will determine whose turn it is. This will be confined to the combat board only.</p>
+
+<h3>
+<a name="user-interface-2" class="anchor" href="#user-interface-2"><span class="octicon octicon-link"></span></a>user interface</h3>
+
+<p>This script will handle all UI elements on the combat board.</p>
+
+<h2>
+<a name="bases" class="anchor" href="#bases"><span class="octicon octicon-link"></span></a>bases</h2>
+
+<h3>
+<a name="unit-build-queues" class="anchor" href="#unit-build-queues"><span class="octicon octicon-link"></span></a>unit build queues</h3>
+
+<p>This script will contain a list of units being built, and will tick down as turns progress, creating a unit once its train time has depleted. This script will also make sure players cannot train more than one unit at a given building. This script will probably be applied to building prefabs.</p>
+
+<h3>
+<a name="building-build-queues" class="anchor" href="#building-build-queues"><span class="octicon octicon-link"></span></a>building build queues</h3>
+
+<p>This script is similar to the Unit Build queue, but for buildings. This will probably be applied to possible building squares, and will only allow for one building per square.</p>
+
+<h3>
+<a name="units-at-base" class="anchor" href="#units-at-base"><span class="octicon octicon-link"></span></a>units at base</h3>
+
+<p>This script will store the units that are built already but not currently with a general.</p>
+
+<h3>
+<a name="units-on-general-if-general-at-base" class="anchor" href="#units-on-general-if-general-at-base"><span class="octicon octicon-link"></span></a>units on general (if general at base)</h3>
+
+<p>If this script is told that the general is at the base, it will allow players to drag units from the base reserve onto the general.</p>
+
+<h3>
+<a name="ui-for-transfer-units-from-base-to-general" class="anchor" href="#ui-for-transfer-units-from-base-to-general"><span class="octicon octicon-link"></span></a>UI for transfer units from base to general</h3>
+
+<p>This script will handle moving a unit from the reserve area in the base to a spot with a general.</p>
+
+<h1>
+<a name="timeline" class="anchor" href="#timeline"><span class="octicon octicon-link"></span></a>timeline</h1>
+
+<h2>
+<a name="october-11-2013" class="anchor" href="#october-11-2013"><span class="octicon octicon-link"></span></a>october 11, 2013</h2>
+
+<pre><code>We hope to have terrain in place, a centralized repository for source control, everyone set up and ready to code in Unity, and a completed design document. We hope to have some basic art assets created, such as the game logo.
+</code></pre>
+
+<h2>
+<a name="october-25-2013" class="anchor" href="#october-25-2013"><span class="octicon octicon-link"></span></a>october 25, 2013</h2>
+
+<pre><code>We hope to have base screens working, with unit training and building creation. We hope to have the main screen partially working, with general movement at least partially implemented.
+</code></pre>
+
+<h2>
+<a name="november-8th-2013" class="anchor" href="#november-8th-2013"><span class="octicon octicon-link"></span></a>november 8th, 2013</h2>
+
+<pre><code>Main board should now be fully implemented, with power ups. Combat terrain generation, unit placement and movement should be partially implemented
+</code></pre>
+
+<h2>
+<a name="november-22nd-2013" class="anchor" href="#november-22nd-2013"><span class="octicon octicon-link"></span></a>november 22nd, 2013</h2>
+
+<pre><code>Continue to work on combat, focusing on end game battle implementation.
+</code></pre>
+
+<h2>
+<a name="december-6th-2013" class="anchor" href="#december-6th-2013"><span class="octicon octicon-link"></span></a>december 6th, 2013</h2>
+
+<pre><code>Finish up everything. Usability testing and play tests completed. Hunt and kill any obvious bugs
+</code></pre>
+
+<h2>
+<a name="december-11th-2013" class="anchor" href="#december-11th-2013"><span class="octicon octicon-link"></span></a>december 11th, 2013</h2>
+
+<pre><code>Final game is ready to play.
+</code></pre>
+        </section>
+
+        <footer>
+          Conquest General is maintained by <a href="https://github.com/pjhodson">pjhodson</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
