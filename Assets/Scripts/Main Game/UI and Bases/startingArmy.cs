@@ -5,9 +5,9 @@ public class startingArmy : MonoBehaviour {
 	
 	public bool gameStart;
 	
-	public GameObject grunt;
-	public GameObject tank;
-	public GameObject laBomba;
+	public GameObject redGrunt, blueGrunt;
+	public GameObject redTank, blueTank;
+	public GameObject redLaBomba, blueLaBomba;
 	
 	public int gruntCost;
 	public int tankCost;
@@ -24,6 +24,9 @@ public class startingArmy : MonoBehaviour {
 	
 	public Texture blackPixel;
 	
+	private GeneralUnits redGeneralUnits;
+	private GeneralUnits blueGeneralUnits;
+	
 	// Use this for initialization
 	void Awake () {
 		gameStart = true;
@@ -32,6 +35,13 @@ public class startingArmy : MonoBehaviour {
 		numRGrunt = numRTank = numRPlane = 0;
 		numBGrunt = numBTank = numBPlane = 0;
 		
+		
+		
+	}
+	
+	void Start() {
+		redGeneralUnits = GameObject.Find ("Red General").GetComponent<GeneralUnits>();
+		blueGeneralUnits = GameObject.Find ("Blue General").GetComponent<GeneralUnits>();
 	}
 	
 	// Update is called once per frame
@@ -56,7 +66,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(0,50,Screen.width/4,50), "Add Grunt (-" + gruntCost.ToString() + ")") && redHP >= gruntCost)
 					{
-						//Add grunt to red general here.
+						redGeneralUnits.addUnit(redGrunt);
 						redHP -= gruntCost;
 						numRGrunt++;
 					}
@@ -67,7 +77,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(0,105,Screen.width/4,50), "Add Tank (-" + tankCost.ToString() + ")") && redHP >= tankCost)
 					{
-						//Add tank to red general here.
+						redGeneralUnits.addUnit(redTank);
 						redHP -= tankCost;
 						numRTank++;
 					}
@@ -78,7 +88,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(0,160,Screen.width/4,50), "Add Plane (-" + laBombaCost.ToString() + ")") && redHP >= laBombaCost && !redPlane)
 					{
-						//Add tank to red general here.
+						redGeneralUnits.addUnit(redLaBomba);
 						redHP -= laBombaCost;
 						redPlane = true;
 						numRPlane++;
@@ -95,7 +105,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(Screen.width/4,50,Screen.width/4,50), "Add Grunt (-" + gruntCost.ToString() + ")") && blueHP >= gruntCost)
 					{
-						//Add grunt to blue general here.
+						blueGeneralUnits.addUnit(blueGrunt);
 						blueHP -= gruntCost;
 						numBGrunt++;
 					}
@@ -106,7 +116,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(Screen.width/4,105,Screen.width/4,50), "Add Tank (-" + tankCost.ToString() + ")") && blueHP >= tankCost)
 					{
-						//Add tank to blue general here.
+						blueGeneralUnits.addUnit(blueTank);
 						blueHP -= tankCost;
 						numBTank++;
 					}
@@ -117,7 +127,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					if(GUI.Button (new Rect(Screen.width/4,160,Screen.width/4,50), "Add Plane (-" + laBombaCost.ToString() + ")") && blueHP >= laBombaCost && !bluePlane)
 					{
-						//Add tank to blue general here.
+						blueGeneralUnits.addUnit(blueLaBomba);
 						blueHP -= laBombaCost;
 						bluePlane = true;
 						numBPlane++;

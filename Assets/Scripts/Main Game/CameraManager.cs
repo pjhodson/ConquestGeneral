@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(!this.GetComponent<startingArmy>().gameStart) { //ignore all camera movement if unit selection showing. 
 		float rightConstraint, leftConstraint,topConstraint, botConstraint;
 		
 		rightConstraint = theBoard.calcWorldCoord(new Vector2(theBoard.gridWidthInHexes-1,0)).x;
@@ -77,6 +77,6 @@ public class CameraManager : MonoBehaviour {
 			Camera.main.orthographicSize += scrollSensitivity*Time.deltaTime;
 		}
 		
-	
+		}
 	}
 }

@@ -74,7 +74,7 @@ public class CombatBoard : MonoBehaviour {
             {
                 //GameObject assigned to Hex public variable is cloned
                 hexArray[x,y] = (GameObject)Instantiate (Hex);
-				hexArray[x,y].GetComponent<HexEvents>().myCoords = new Vector2(x,y);
+				hexArray[x,y].GetComponent<combatHexEvents>().myCoords = new Vector2(x,y);
                 //Current position in grid
                 Vector2 gridPos = new Vector2(x, y);
                 hexArray[x,y].transform.position = calcWorldCoord(gridPos);
@@ -112,8 +112,8 @@ public class CombatBoard : MonoBehaviour {
 		{
 			for(int y = 0; y < gridHeightInHexes; y++)
 			{
-				hexArray[x,y].GetComponent<HexEvents>().isSelected = false;
-				hexArray[x,y].GetComponent<HexEvents>().highlit = false;
+				hexArray[x,y].GetComponent<combatHexEvents>().isSelected = false;
+				hexArray[x,y].GetComponent<combatHexEvents>().highlit = false;
 			}
 		}
 	}
@@ -121,13 +121,13 @@ public class CombatBoard : MonoBehaviour {
 	public void hexSelected(Vector2 SelectedCoords)
 	{
 		/*if(selectedHexes.Count == 0 && 
-			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<HexEvents>().redGeneralOnMe == true) && playerTurn == 1 && !generalMoved)
+			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<combatHexEvents>().redGeneralOnMe == true) && playerTurn == 1 && !generalMoved)
 			{
 				selectedHexes.Add (SelectedCoords);
 				highlightMoves(SelectedCoords);
 			}
 		else if(selectedHexes.Count == 0 &&
-			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<HexEvents>().blueGeneralOnMe == true) && playerTurn == 2 && !generalMoved)
+			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<combatHexEvents>().blueGeneralOnMe == true) && playerTurn == 2 && !generalMoved)
 			{
 				selectedHexes.Add (SelectedCoords);
 				highlightMoves(SelectedCoords);
@@ -164,7 +164,7 @@ public class CombatBoard : MonoBehaviour {
 				if(calculateHexDistance(center,new Vector2(x,y)) > 0 && calculateHexDistance(center,new Vector2(x,y)) <= 6)
 				{
 					Debug.Log ("highlighting " + x + " " + y);
-					hexArray[x,y].GetComponent<HexEvents>().highlight();
+					hexArray[x,y].GetComponent<combatHexEvents>().highlight();
 				}
 			}
 		}
@@ -179,7 +179,7 @@ public class CombatBoard : MonoBehaviour {
 			{
 				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
 					string selectedGeneral = "";
-					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<HexEvents>().redGeneralOnMe == true)
+					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<combatHexEvents>().redGeneralOnMe == true)
 					{
 						selectedGeneral = "red";
 					}
@@ -201,7 +201,7 @@ public class CombatBoard : MonoBehaviour {
 			{
 				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
 					string selectedGeneral = "";
-					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<HexEvents>().blueGeneralOnMe == true)
+					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<combatHexEvents>().blueGeneralOnMe == true)
 					{
 						selectedGeneral = "blue";
 					}
