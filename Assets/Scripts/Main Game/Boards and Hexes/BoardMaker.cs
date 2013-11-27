@@ -37,13 +37,16 @@ public class BoardMaker : MonoBehaviour {
 	public bool inCombat;
 	private bool combatCamMoved;
 	
- 
+	public bool redEnterBase;
+	
 	//The grid should be generated on game start
     void Awake()
     {
 		redGeneralHome = redGeneralBlueBase = blueGeneralHome = blueGeneralRedBase = false;
 		inCombat = false;
 		combatCamMoved = false;
+		
+		redEnterBase = false;
 		
 		playerTurn = Random.Range (1,4);
 		if(playerTurn % 2 == 0)
@@ -73,12 +76,12 @@ public class BoardMaker : MonoBehaviour {
 		BlueGeneral.renderer.material.color = Color.blue;
 		
 		//Instantiate Bases
-		RedBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(1,1)) + new Vector3(0,.75f,0),Quaternion.identity);
+		RedBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(1,1)) + new Vector3(0,.8f,0),Quaternion.identity);
 		RedBase.name = "Red Base";
 		RedBase.tag = "red base";
 		RedBase.renderer.material.color = Color.red;
 		
-		BlueBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(gridWidthInHexes - 2, gridHeightInHexes -2)) + new Vector3(0,.75f,0),Quaternion.identity);
+		BlueBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(gridWidthInHexes - 2, gridHeightInHexes -2)) + new Vector3(0,.8f,0),Quaternion.identity);
 		BlueBase.name = "Blue Base";
 		BlueBase.tag = "blue base";
 		BlueBase.renderer.material.color = Color.blue;
@@ -327,6 +330,16 @@ public class BoardMaker : MonoBehaviour {
 		}
 	}
 	
+	public int getPlayerTurn()
+	{
+		return playerTurn;
+	}
+	
+	public int getTurnNumber()
+	{
+		return turnNumber;
+	}
+	
 	//GUI STUFF
 	void OnGUI() {
 		string turnNotifier;
@@ -339,6 +352,14 @@ public class BoardMaker : MonoBehaviour {
 		GUI.Box (new Rect(Screen.width/4, 0, Screen.width/2, 25), "");
 		GUI.Label (new Rect(Screen.width/4+10, 0, 100,25), turnNotifier);
 		GUI.Label (new Rect(Screen.width/4+110, 0, 100,25), "Turn " + turnNumber.ToString ());
+		
+		if(redGeneralHome)
+		{
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50), "Enter Base"))
+			{
+				redEnterBase = true;
+			}
+		}
 		
 		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
 			if(playerTurn == 1)

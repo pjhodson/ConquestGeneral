@@ -135,6 +135,11 @@ public class startingArmy : MonoBehaviour {
 					GUI.enabled = true;
 					GUI.Label (new Rect(Screen.width/4,215,Screen.width/4,30), "G: " + numBGrunt.ToString() + " T: " + numBTank.ToString() + " P: " + numBPlane.ToString());
 					
+					if(Input.GetKey (KeyCode.KeypadPeriod))
+					{
+						gameStart = false;
+					}
+					
 					if(redHP < gruntCost && blueHP < gruntCost)
 					{
 						if(GUI.Button (new Rect(0,250,Screen.width/2,30), "FIGHT"))
