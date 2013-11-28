@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RedBase : MonoBehaviour {
+public class BlueBase : MonoBehaviour {
 	
 	private BoardMaker boardInfo;
 	
-	public Texture redPixel;
+	public Texture bluePixel;
 	
 	public bool baseClickedOn;
 	
-	public GameObject redGrunt, redTank, redPlane;
+	public GameObject blueGrunt, blueTank, bluePlane;
 	
 	public GUIContent[] buttonDescriptions;
 	public GUIContent[] buildingOptions;
@@ -50,15 +50,15 @@ public class RedBase : MonoBehaviour {
 	}
 	
 	void OnGUI () {
-		if(((boardInfo.redEnterBase && boardInfo.getPlayerTurn() == 1) || (baseClickedOn && boardInfo.getPlayerTurn() == 1)))
+		if(((boardInfo.blueEnterBase && boardInfo.getPlayerTurn() == 2) || (baseClickedOn && boardInfo.getPlayerTurn() == 2)))
 		{
 			GUI.BeginGroup(new Rect(20,20,Screen.width-40,Screen.height-40));
-				GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),redPixel);
+				GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),bluePixel);
 				GUI.BeginGroup (new Rect(20,20,Screen.width-60,Screen.height-60));
 				
 				if(GUI.Button (new Rect(Screen.width - 180, Screen.height - 110,100,30),"EXIT"))
 				{
-					boardInfo.redEnterBase = false;
+					boardInfo.blueEnterBase = false;
 					baseClickedOn = false;
 				}
 				
@@ -108,23 +108,6 @@ public class RedBase : MonoBehaviour {
 						{
 							buildings[i].startTraining(currentTurn);
 						}
-					
-						/*if(buildings[i].doneTraining(currentTurn) && !buildings[i].getCurrentlyTraining() && buildings[i].getNumUnitsTrained() > 0 && unitsOnBase.Count < totalUnitsAllowedOnBase) //FIX THIS. YOU IDIOT.
-						{
-							string unitToAdd = buildings[i].getUnitName();
-							switch(unitToAdd)
-							{
-								case "Grunt":
-									unitsOnBase.Add (redGrunt);
-									break;
-								case "Tank":
-									unitsOnBase.Add (redTank);
-									break;
-								case "Plane":
-									unitsOnBase.Add (redPlane);
-									break;
-							}
-						}*/
 					}
 				}
 			
@@ -175,13 +158,13 @@ public class RedBase : MonoBehaviour {
 		switch(name)
 		{
 			case "Grunt":
-				unitsOnBase.Add (redGrunt);
+				unitsOnBase.Add (blueGrunt);
 				break;
 			case "Tank":
-				unitsOnBase.Add (redTank);
+				unitsOnBase.Add (blueTank);
 				break;
 			case "Plane":
-				unitsOnBase.Add (redPlane);
+				unitsOnBase.Add (bluePlane);
 				break;
 		}
 	}

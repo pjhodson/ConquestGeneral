@@ -22,7 +22,7 @@ public class baseClickHandler : MonoBehaviour {
 				}
 				else if (vHit.collider.tag == "blue base")
 				{
-					Debug.Log ("BLUE BASE.");
+					GameObject.Find ("BBaseHandler").GetComponent<BlueBase>().baseClickedOn = true;
 				}
 			
 			}

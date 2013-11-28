@@ -37,7 +37,7 @@ public class BoardMaker : MonoBehaviour {
 	public bool inCombat;
 	private bool combatCamMoved;
 	
-	public bool redEnterBase;
+	public bool redEnterBase, blueEnterBase;
 	
 	//The grid should be generated on game start
     void Awake()
@@ -47,6 +47,7 @@ public class BoardMaker : MonoBehaviour {
 		combatCamMoved = false;
 		
 		redEnterBase = false;
+		blueEnterBase = false;
 		
 		playerTurn = Random.Range (1,4);
 		if(playerTurn % 2 == 0)
@@ -353,11 +354,19 @@ public class BoardMaker : MonoBehaviour {
 		GUI.Label (new Rect(Screen.width/4+10, 0, 100,25), turnNotifier);
 		GUI.Label (new Rect(Screen.width/4+110, 0, 100,25), "Turn " + turnNumber.ToString ());
 		
-		if(redGeneralHome)
+		if(redGeneralHome && playerTurn == 1)
 		{
 			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50), "Enter Base"))
 			{
 				redEnterBase = true;
+			}
+		}
+		
+		if(blueGeneralHome && playerTurn == 2)
+		{
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50),"Enter Base"))
+			{
+				blueEnterBase = true;
 			}
 		}
 		
