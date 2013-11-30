@@ -15,7 +15,7 @@ public class GeneralEvents : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 	
 	void OnCollisionEnter(Collision general)
@@ -37,7 +37,7 @@ public class GeneralEvents : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider collision)
 	{
-		Debug.Log ("Trigger Entered");
+		//Debug.Log ("Trigger Entered");
 		if(this.gameObject.tag == "red general" && collision.gameObject.tag == "red base")
 		{
 			boardInfo.redGeneralHome = true;

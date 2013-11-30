@@ -70,11 +70,13 @@ public class BoardMaker : MonoBehaviour {
 		RedGeneral.name = "Red General";
 		RedGeneral.tag = "red general";
 		RedGeneral.renderer.material.color = Color.red;
+		RedGeneral.GetComponent<GeneralEvents>().myCoords = new Vector2(0,0);
 		
 		BlueGeneral = (GameObject)Instantiate (General, calcWorldCoord (new Vector2(gridWidthInHexes-1,gridHeightInHexes-1)) + new Vector3(0,0.5f,0), Quaternion.identity);
 		BlueGeneral.name = "Blue General";
 		BlueGeneral.tag = "blue general";
 		BlueGeneral.renderer.material.color = Color.blue;
+		BlueGeneral.GetComponent<GeneralEvents>().myCoords = new Vector2(gridWidthInHexes-1,gridHeightInHexes-1);
 		
 		//Instantiate Bases
 		RedBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(1,1)) + new Vector3(0,.8f,0),Quaternion.identity);

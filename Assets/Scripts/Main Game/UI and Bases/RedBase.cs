@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class RedBase : MonoBehaviour {
 	
 	private BoardMaker boardInfo;
+	private GameObject redGeneral;
 	
 	public Texture redPixel;
+	public Texture generalImage;
 	
 	public bool baseClickedOn;
 	
@@ -26,15 +29,25 @@ public class RedBase : MonoBehaviour {
 	
 	public List<GameObject> unitsOnBase;
 	
+	private GUIContent[] unitContent;
+	
 	// Use this for initialization
 	void Start () {
 		boardInfo = GameObject.Find ("BoardManager").GetComponent<BoardMaker>();
+		redGeneral = GameObject.Find ("Red General");
 		baseClickedOn = false;
 		
 		buildings = new Building_BASE_CLASS[6];
 		
+		unitContent = new GUIContent[20];
+		
 		displayChoices = false;
 		buttonNum = -1;
+		
+		for(int i = 0; i < 20; i++)
+		{
+			unitContent[i] = GUIContent.none;
+		}
 	}
 	
 	void Update() {
@@ -62,11 +75,36 @@ public class RedBase : MonoBehaviour {
 					baseClickedOn = false;
 				}
 				
+				if(boardInfo.redGeneralHome)
+				{
+					GUI.DrawTexture(new Rect(Screen.width/2 - generalImage.width, Screen.height/2 - generalImage.height/2, generalImage.width, generalImage.height),generalImage);
+					
+					GUIContent[] generalContent = new GUIContent[10];
 				
+					for(int i = 0; i < redGeneral.GetComponent<GeneralUnits>().units.Length; i++)
+					{
+						generalContent[i] = GUIContent.none;
+						if(redGeneral.GetComponent<GeneralUnits>().units[i] != null)
+						{
+							switch(redGeneral.GetComponent<GeneralUnits>().units[i].name)
+							{
+								case "Red Grunt":
+									generalContent[i] = new GUIContent("Grunt"); //Add image here.
+									break;
+								case "Red Tank":
+									generalContent[i] = new GUIContent("Tank");
+									break;
+								case "Red Plane":
+									generalContent[i] = new GUIContent("Plane");
+									break;
+							}
+						}
+					}
+					GUI.SelectionGrid (new Rect(Screen.width/2 - 200, Screen.height - 200,400,60),-1, generalContent, 5);			
+				}
+								
 				for(int i = 0; i < buttonDescriptions.Length; i++)
 				{
-					
-				
 					if(buttonDescriptions[i].text  == "BUILD HERE")
 					{
 						if(isAnythingBuilding ())
@@ -107,27 +145,35 @@ public class RedBase : MonoBehaviour {
 						if(GUI.Button (new Rect(10,10+ 35* i, 150,30), buttonDescriptions[i]))
 						{
 							buildings[i].startTraining(currentTurn);
-						}
-					
-						/*if(buildings[i].doneTraining(currentTurn) && !buildings[i].getCurrentlyTraining() && buildings[i].getNumUnitsTrained() > 0 && unitsOnBase.Count < totalUnitsAllowedOnBase) //FIX THIS. YOU IDIOT.
-						{
-							string unitToAdd = buildings[i].getUnitName();
-							switch(unitToAdd)
-							{
-								case "Grunt":
-									unitsOnBase.Add (redGrunt);
-									break;
-								case "Tank":
-									unitsOnBase.Add (redTank);
-									break;
-								case "Plane":
-									unitsOnBase.Add (redPlane);
-									break;
-							}
-						}*/
+						}	
 					}
 				}
-			
+				
+				if(unitsOnBase.Count > 0)
+				{
+					GUI.enabled = true;
+					int selectedUnit = 0;
+					selectedUnit = GUI.SelectionGrid(new Rect(3*Screen.width/4, 10,100,300),-1,unitContent,2);
+					GUI.enabled = false;
+					
+					
+					if(selectedUnit > -1 && boardInfo.redGeneralHome && !redGeneral.GetComponent<GeneralUnits>().isFull()) //MAKE SURE THE GENERAL IS NOT FULL UP.
+					{
+						unitContent[selectedUnit] = GUIContent.none;
+						redGeneral.GetComponent<GeneralUnits>().addUnit(unitsOnBase[selectedUnit]);
+						unitsOnBase.RemoveAt(selectedUnit);
+						
+						Array.Sort(unitContent,delegate(GUIContent gc1, GUIContent gc2) { return gc2.text.CompareTo(gc1.text);});
+						
+					}
+					
+				}
+				else
+				{
+					GUI.Label (new Rect(3*Screen.width/4, 10,100,300), "No Units on Base.");
+				}
+						
+				GUI.Label (new Rect(10,450,400,30), GUI.tooltip);
 			
 			
 				GUI.EndGroup();
@@ -171,18 +217,23 @@ public class RedBase : MonoBehaviour {
 	public void addTroops(string name)
 	{
 		Debug.Log (name);
-		
-		switch(name)
+		if(unitsOnBase.Count < 20)
 		{
-			case "Grunt":
-				unitsOnBase.Add (redGrunt);
-				break;
-			case "Tank":
-				unitsOnBase.Add (redTank);
-				break;
-			case "Plane":
-				unitsOnBase.Add (redPlane);
-				break;
+			switch(name)
+			{
+				case "Grunt":
+					unitsOnBase.Add (redGrunt);
+					unitContent[unitsOnBase.LastIndexOf(redGrunt)] = new GUIContent("Grunt", "Click to transfer to General.");
+					break;
+				case "Tank":
+					unitsOnBase.Add (redTank);
+					unitContent[unitsOnBase.LastIndexOf(redTank)] = new GUIContent("Tank");
+					break;
+				case "Plane":
+					unitsOnBase.Add (redPlane);
+					unitContent[unitsOnBase.LastIndexOf(redPlane)] = new GUIContent("Plane");
+					break;
+			}
 		}
 	}
 }

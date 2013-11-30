@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class BlueBase : MonoBehaviour {
 	
 	private BoardMaker boardInfo;
+	private GameObject blueGeneral;
 	
 	public Texture bluePixel;
+	public Texture generalImage;
 	
 	public bool baseClickedOn;
 	
@@ -26,15 +29,25 @@ public class BlueBase : MonoBehaviour {
 	
 	public List<GameObject> unitsOnBase;
 	
+	private GUIContent[] unitContent;
+	
 	// Use this for initialization
 	void Start () {
 		boardInfo = GameObject.Find ("BoardManager").GetComponent<BoardMaker>();
+		blueGeneral = GameObject.Find("Blue General");
 		baseClickedOn = false;
 		
 		buildings = new Building_BASE_CLASS[6];
 		
+		unitContent = new GUIContent[20];
+		
 		displayChoices = false;
 		buttonNum = -1;
+		
+		for(int i = 0; i < 20; i++)
+		{
+			unitContent[i] = GUIContent.none;
+		}
 	}
 	
 	void Update() {
@@ -62,11 +75,36 @@ public class BlueBase : MonoBehaviour {
 					baseClickedOn = false;
 				}
 				
+				if(boardInfo.blueGeneralHome)
+				{
+					GUI.DrawTexture(new Rect(Screen.width/2 - generalImage.width, Screen.height/2 - generalImage.height/2, generalImage.width, generalImage.height),generalImage);
+				
+					GUIContent[] generalContent = new GUIContent[10];
+				
+					for(int i = 0; i < blueGeneral.GetComponent<GeneralUnits>().units.Length; i++)
+					{
+						generalContent[i] = GUIContent.none;
+						if(blueGeneral.GetComponent<GeneralUnits>().units[i] != null)
+						{
+							switch(blueGeneral.GetComponent<GeneralUnits>().units[i].name)
+							{
+								case "Blue Grunt":
+									generalContent[i] = new GUIContent("Grunt"); //Add image here.
+									break;
+								case "Blue Tank":
+									generalContent[i] = new GUIContent("Tank");
+									break;
+								case "Blue Plane":
+									generalContent[i] = new GUIContent("Plane");
+									break;
+							}
+						}
+					}
+					GUI.SelectionGrid (new Rect(Screen.width/2 - 200, Screen.height - 200,400,60),-1, generalContent, 5);
+				}
 				
 				for(int i = 0; i < buttonDescriptions.Length; i++)
 				{
-					
-				
 					if(buttonDescriptions[i].text  == "BUILD HERE")
 					{
 						if(isAnythingBuilding ())
@@ -111,8 +149,32 @@ public class BlueBase : MonoBehaviour {
 					}
 				}
 			
-			
-			
+				if(unitsOnBase.Count > 0)
+				{
+					GUI.enabled = true;
+					int selectedUnit = 0;
+					selectedUnit = GUI.SelectionGrid(new Rect(3*Screen.width/4, 10,100,300),-1,unitContent,2);
+					GUI.enabled = false;
+					
+					
+					if(selectedUnit > -1 && boardInfo.blueGeneralHome && !blueGeneral.GetComponent<GeneralUnits>().isFull()) //MAKE SURE THE GENERAL IS NOT FULL UP.
+					{
+						unitContent[selectedUnit] = GUIContent.none;
+						blueGeneral.GetComponent<GeneralUnits>().addUnit(unitsOnBase[selectedUnit]);
+						unitsOnBase.RemoveAt(selectedUnit);
+						
+						Array.Sort(unitContent,delegate(GUIContent gc1, GUIContent gc2) { return gc2.text.CompareTo(gc1.text);});
+						
+					}
+					
+				}
+				else
+				{
+					GUI.Label (new Rect(3*Screen.width/4, 10,100,300), "No Units on Base.");
+				}
+						
+				GUI.Label (new Rect(10,450,400,30), GUI.tooltip);
+					
 				GUI.EndGroup();
 			GUI.EndGroup();
 		}
@@ -154,18 +216,23 @@ public class BlueBase : MonoBehaviour {
 	public void addTroops(string name)
 	{
 		Debug.Log (name);
-		
-		switch(name)
+		if(unitsOnBase.Count < 20)
 		{
-			case "Grunt":
-				unitsOnBase.Add (blueGrunt);
-				break;
-			case "Tank":
-				unitsOnBase.Add (blueTank);
-				break;
-			case "Plane":
-				unitsOnBase.Add (bluePlane);
-				break;
+			switch(name)
+			{
+				case "Grunt":
+					unitsOnBase.Add (blueGrunt);
+					unitContent[unitsOnBase.LastIndexOf(blueGrunt)] = new GUIContent("Grunt");
+					break;
+				case "Tank":
+					unitsOnBase.Add (blueTank);
+					unitContent[unitsOnBase.LastIndexOf(blueTank)] = new GUIContent("Tank");
+					break;
+				case "Plane":
+					unitsOnBase.Add (bluePlane);
+					unitContent[unitsOnBase.LastIndexOf(bluePlane)] = new GUIContent("Plane");
+					break;
+			}
 		}
 	}
 }

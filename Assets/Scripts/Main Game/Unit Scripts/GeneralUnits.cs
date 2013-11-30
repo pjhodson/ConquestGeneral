@@ -34,4 +34,13 @@ public class GeneralUnits : MonoBehaviour {
 		}
 		counter--;
 	}
+	
+	public bool isFull()
+	{
+		if(counter == 10)
+		{
+			return true;
+		}
+		else return false;
+	}
 }

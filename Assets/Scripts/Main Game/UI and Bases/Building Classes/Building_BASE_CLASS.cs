@@ -30,7 +30,7 @@ public class Building_BASE_CLASS {
 	public void startBuilding(int currentTurn)
 	{
 		startBuild = currentTurn;
-		Debug.Log ("Started Building at turn " + startBuild + ". Expected Completion turn " + startBuild + buildTime);
+		//Debug.Log ("Started Building at turn " + startBuild + ". Expected Completion turn " + startBuild + buildTime);
 	}
 	
 	public bool doneBuilding(int currentTurn) //Check if done.
@@ -59,6 +59,8 @@ public class Building_BASE_CLASS {
 			}
 			else if(caller.GetComponent<BlueBase>())
 			{
+				caller.GetComponent<BlueBase>().addTroops(unitName);
+				currentlyTraining = false;
 			}
 		}
 	}
