@@ -15,7 +15,7 @@ public class GeneralEvents : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+			
 	}
 	
 	void OnCollisionEnter(Collision general)
@@ -23,13 +23,17 @@ public class GeneralEvents : MonoBehaviour {
 		//COMBAT! Need a variable in BoardMaker to set combat and determine who started it.
 		if(this.gameObject.tag == "red general" && general.gameObject.tag == "blue general")
 		{
+			this.gameObject.rigidbody.detectCollisions = false;
 			this.gameObject.rigidbody.isKinematic = true;
+			general.gameObject.rigidbody.detectCollisions = false;
 			general.gameObject.rigidbody.isKinematic = true;
 			boardInfo.inCombat = true;
 		}
 		else if (this.gameObject.tag == "blue general" && general.gameObject.tag == "red general")
 		{
+			this.gameObject.rigidbody.detectCollisions = false;
 			this.gameObject.rigidbody.isKinematic = true;
+			general.gameObject.rigidbody.detectCollisions = false;
 			general.gameObject.rigidbody.isKinematic = true;
 			boardInfo.inCombat = true;
 		}
@@ -55,11 +59,6 @@ public class GeneralEvents : MonoBehaviour {
 		{
 			boardInfo.blueGeneralRedBase = true;
 		}
-	}
-	
-	void onCollisionExit(Collision general)
-	{
-		boardInfo.inCombat = false;
 	}
 	
 	void OnTriggerExit()

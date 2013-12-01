@@ -56,8 +56,8 @@ public class HexEvents : MonoBehaviour {
 			
 			
 			RaycastHit hit;
-			Debug.DrawRay (transform.position + new Vector3(.25f,0,.25f),transform.up);
-			if(Physics.Raycast(transform.position + new Vector3(.25f,0,.25f),transform.up,out hit))
+			Debug.DrawRay (transform.position + new Vector3(.2f,0,.2f),transform.up);
+			if(Physics.Raycast(transform.position + new Vector3(.2f,0,.2f),transform.up,out hit))
 			{
 				if(hit.collider.gameObject.tag == "red general")
 				{

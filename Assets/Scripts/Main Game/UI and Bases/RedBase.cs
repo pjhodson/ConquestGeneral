@@ -84,17 +84,17 @@ public class RedBase : MonoBehaviour {
 					for(int i = 0; i < redGeneral.GetComponent<GeneralUnits>().units.Length; i++)
 					{
 						generalContent[i] = GUIContent.none;
-						if(redGeneral.GetComponent<GeneralUnits>().units[i] != null)
+						if(redGeneral.GetComponent<GeneralUnits>().unitNames[i] != null)
 						{
-							switch(redGeneral.GetComponent<GeneralUnits>().units[i].name)
+							switch(redGeneral.GetComponent<GeneralUnits>().unitNames[i])
 							{
-								case "Red Grunt":
+								case "Red Grunt(Clone)":
 									generalContent[i] = new GUIContent("Grunt"); //Add image here.
 									break;
-								case "Red Tank":
+								case "Red Tank(Clone)":
 									generalContent[i] = new GUIContent("Tank");
 									break;
-								case "Red Plane":
+								case "Red Plane(Clone)":
 									generalContent[i] = new GUIContent("Plane");
 									break;
 							}

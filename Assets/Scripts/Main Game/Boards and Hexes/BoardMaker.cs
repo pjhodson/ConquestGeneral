@@ -66,13 +66,13 @@ public class BoardMaker : MonoBehaviour {
 		
 		
 		//Instantiate Generals
-		RedGeneral = (GameObject)Instantiate (General,calcWorldCoord (new Vector2(0,0)) + new Vector3(0,0.5f,0),Quaternion.identity);
+		RedGeneral = (GameObject)Instantiate (General,calcWorldCoord (new Vector2(0,0))+ new Vector3(0,0.5f,0),Quaternion.identity);
 		RedGeneral.name = "Red General";
 		RedGeneral.tag = "red general";
 		RedGeneral.renderer.material.color = Color.red;
 		RedGeneral.GetComponent<GeneralEvents>().myCoords = new Vector2(0,0);
 		
-		BlueGeneral = (GameObject)Instantiate (General, calcWorldCoord (new Vector2(gridWidthInHexes-1,gridHeightInHexes-1)) + new Vector3(0,0.5f,0), Quaternion.identity);
+		BlueGeneral = (GameObject)Instantiate (General, calcWorldCoord (new Vector2(gridWidthInHexes-1,gridHeightInHexes-1))+ new Vector3(0,0.5f,0), Quaternion.identity);
 		BlueGeneral.name = "Blue General";
 		BlueGeneral.tag = "blue general";
 		BlueGeneral.renderer.material.color = Color.blue;
@@ -129,7 +129,7 @@ public class BoardMaker : MonoBehaviour {
         float x =  initPos.x + offset + gridPos.x * hexWidth;
         //Every new line is offset in z direction by 3/4 of the hexagon height
         float z = initPos.z - gridPos.y * hexHeight * 0.75f;
-        return new Vector3(x, 0, z);
+        return new Vector3(x, 1.5f, z);
     }
  
     //Finally the method which initialises and positions all the tiles
@@ -233,7 +233,7 @@ public class BoardMaker : MonoBehaviour {
 			{
 				if(calculateHexDistance(center,new Vector2(x,y)) > 0 && calculateHexDistance(center,new Vector2(x,y)) <= 6)
 				{
-					Debug.Log ("highlighting " + x + " " + y);
+					//Debug.Log ("highlighting " + x + " " + y);
 					hexArray[x,y].GetComponent<HexEvents>().highlight();
 				}
 			}
@@ -253,7 +253,7 @@ public class BoardMaker : MonoBehaviour {
 		while(General.transform.position != movePos)
 		{
 			General.transform.position = Vector3.MoveTowards (General.transform.position, movePos, 10 * Time.deltaTime);
-			yield return null;
+			yield return new WaitForSeconds(Time.deltaTime);
 		}
 		General.transform.position = movePos;
 	}
@@ -274,7 +274,7 @@ public class BoardMaker : MonoBehaviour {
 					}
 					
 					Debug.Log ("Moving General");
-					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1]) + new Vector3(0,0.5f,0)));
+					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1])+ new Vector3(0,0.5f,0)));
 					generalMoved = true;
 				}
 				else Debug.Log ("Invalid Move");
@@ -297,7 +297,7 @@ public class BoardMaker : MonoBehaviour {
 					}
 					
 					Debug.Log ("Moving General");
-					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1]) + new Vector3(0,0.5f,0)));
+					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1])+ new Vector3(0,0.5f,0)));
 					generalMoved = true;					
 				}
 				else Debug.Log ("Invalid Move");
@@ -372,18 +372,64 @@ public class BoardMaker : MonoBehaviour {
 			}
 		}
 		
+		if(inCombat)
+		{
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50),"Retreat"))
+			{
+				BlueGeneral.transform.position = calcWorldCoord(new Vector2(gridWidthInHexes-1,gridHeightInHexes -1)) + new Vector3(0,0.5f,0);
+				RedGeneral.transform.position = calcWorldCoord(new Vector2(0,0))+ new Vector3(0,0.5f,0);
+								
+				RedGeneral.rigidbody.detectCollisions = true;
+				RedGeneral.rigidbody.isKinematic = false;
+				BlueGeneral.rigidbody.detectCollisions = true;
+				BlueGeneral.rigidbody.isKinematic = false;
+				
+				combatCamMoved = false;
+				inCombat = false;
+				
+				theCombatBoard.returnUnits();
+				
+				if(playerTurn == 1)
+				{
+					playerTurn = 2;
+					if(!inCombat)
+					{
+						StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
+					}
+				}
+				else 
+				{
+					playerTurn = 1;
+					if(!inCombat)
+					{
+						StartCoroutine(camLerp(new Vector3(RedGeneral.transform.position.x, Camera.main.transform.position.y, RedGeneral.transform.position.z)));
+					}
+				}
+			
+				turnNumber++;
+				generalMoved = false; //set general back to being able to move			
+			}
+		}
+			
+		
 		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
 			if(playerTurn == 1)
 			{
 				playerTurn = 2;
-				StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
+				if(!inCombat)
+				{
+					StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
+				}
 			}
 			else 
 			{
 				playerTurn = 1;
-				StartCoroutine(camLerp(new Vector3(RedGeneral.transform.position.x, Camera.main.transform.position.y, RedGeneral.transform.position.z)));
+				if(!inCombat)
+				{
+					StartCoroutine(camLerp(new Vector3(RedGeneral.transform.position.x, Camera.main.transform.position.y, RedGeneral.transform.position.z)));
+				}
 			}
-			
+			theCombatBoard.deselectAll();
 			turnNumber++;
 			generalMoved = false; //set general back to being able to move
 		}

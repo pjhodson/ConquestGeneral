@@ -16,16 +16,34 @@ public class CombatBoard : MonoBehaviour {
 	
 	private GameObject[,] hexArray;
  
+	public bool aHexIsSelected;
     //Hexagon tile width and height in game world
     private float hexWidth;
     private float hexHeight;
 	
+	public int selectedUnit;
+	
+	private BoardMaker boardInfo;
+	
+	public List<GameObject> redUnits, blueUnits;
+	private List<Vector2> redUnitPositions, blueUnitPositions;
+	
 	//The grid should be generated on game start
     void Awake()
     {
+		selectedUnit = -1;
+		aHexIsSelected = false;
 		hexArray = new GameObject[gridWidthInHexes,gridHeightInHexes];
         setSizes();
         createGrid();
+		
+		redUnits = new List<GameObject>();
+		blueUnits = new List<GameObject>();
+		
+		redUnitPositions = new List<Vector2>();
+		blueUnitPositions = new List<Vector2>();
+		
+		boardInfo = GameObject.Find ("BoardManager").GetComponent<BoardMaker>();
 	}
 	
     //Method to initialise Hexagon width and height
@@ -83,8 +101,6 @@ public class CombatBoard : MonoBehaviour {
         }
     }
  
-
-	
 	int calculateHexDistance(Vector2 firstHex, Vector2 secondHex)
 	{
 		//Translate Array coords into hex coords http://www-cs-students.stanford.edu/~amitp/Articles/HexLOS.html
@@ -106,8 +122,9 @@ public class CombatBoard : MonoBehaviour {
 		else return Mathf.Abs(deltaX) + Mathf.Abs(deltaY);
 	}
 		
-	void deselectAll()
+	public void deselectAll()
 	{
+		selectedHexes.Clear ();
 		for(int x = 0; x < gridWidthInHexes; x++)
 		{
 			for(int y = 0; y < gridHeightInHexes; y++)
@@ -116,31 +133,60 @@ public class CombatBoard : MonoBehaviour {
 				hexArray[x,y].GetComponent<combatHexEvents>().highlit = false;
 			}
 		}
+		aHexIsSelected = false;
+	}
+	
+	public void spawn (GameObject spawnMe, string theColor)
+	{
+		spawnMe.SetActive(true);
+		if(theColor == "red")
+		{
+			redUnits.Add (spawnMe);
+			spawnMe.transform.position = calcWorldCoord(selectedHexes[0]);
+			redUnitPositions.Add (selectedHexes[0]);
+		}
+		else if(theColor == "blue")
+		{
+			blueUnits.Add (spawnMe);
+			spawnMe.transform.position = calcWorldCoord(selectedHexes[0]);
+			Debug.Log ("Spawning at " + calcWorldCoord(selectedHexes[0]));
+			blueUnitPositions.Add (selectedHexes[0]);
+		}
+		
+	}
+	
+	public bool spawnHexOccupied(string theColor)
+	{
+		if(theColor == "red")
+		{
+			for(int i = 0; i < redUnitPositions.Count; i++)
+			{
+				if(selectedHexes[0] == redUnitPositions[i])
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else if(theColor == "blue")
+		{
+			for(int i = 0; i < blueUnitPositions.Count; i++)
+			{
+				if(selectedHexes[0] == blueUnitPositions[i])
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else return false;
 	}
 	
 	public void hexSelected(Vector2 SelectedCoords)
 	{
-		/*if(selectedHexes.Count == 0 && 
-			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<combatHexEvents>().redGeneralOnMe == true) && playerTurn == 1 && !generalMoved)
-			{
-				selectedHexes.Add (SelectedCoords);
-				highlightMoves(SelectedCoords);
-			}
-		else if(selectedHexes.Count == 0 &&
-			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<combatHexEvents>().blueGeneralOnMe == true) && playerTurn == 2 && !generalMoved)
-			{
-				selectedHexes.Add (SelectedCoords);
-				highlightMoves(SelectedCoords);
-			}
-		else if(selectedHexes.Count > 0)
-		{
-			selectedHexes.Add (SelectedCoords);
-		}
-		else
-		{
-			Debug.Log ("Invalid Move");
-			deselectAll();
-		}*/
+		aHexIsSelected = true;
+		selectedHexes.Add (SelectedCoords);
+		Debug.Log (selectedHexes[0]);
 	}
 	
 	public void hexDeselected(Vector2 DeselectCoords)
@@ -154,82 +200,66 @@ public class CombatBoard : MonoBehaviour {
 		}
 	}
 	
-	void highlightMoves(Vector2 center)
+	void highlightMoves(Vector2 center, int range, Color highlightColor)
 	{
-		//This needs to be optimized because it slows the game down to ~ 13FPS at the moment. Get coords of general and limit search to a 12x12 radius. 144 < 1250.
-		for(int x = 0; x < gridWidthInHexes; x++)
-		{
-			for(int y = 0; y < gridHeightInHexes; y++)
-			{
-				if(calculateHexDistance(center,new Vector2(x,y)) > 0 && calculateHexDistance(center,new Vector2(x,y)) <= 6)
-				{
-					Debug.Log ("highlighting " + x + " " + y);
-					hexArray[x,y].GetComponent<combatHexEvents>().highlight();
-				}
-			}
-		}
+
 	}
 	
 	
 	void moveHandler(string whoseTurn)
 	{
-		/*if(whoseTurn == "red") 
+
+	}
+	
+	public void returnUnits()
+	{
+		Debug.Log (redUnits.Count);
+		foreach (GameObject go in redUnits)
 		{
-			if(selectedHexes.Count == 2)
+			GameObject.Find ("Red General").GetComponent<GeneralUnits>().returnUnit(go);
+		}
+		redUnitPositions.Clear ();
+		redUnits.Clear ();
+		
+		foreach (GameObject go in blueUnits)
+		{
+			GameObject.Find ("Blue General").GetComponent<GeneralUnits>().returnUnit(go);
+		}
+		blueUnitPositions.Clear();
+		blueUnits.Clear ();
+		
+		this.GetComponent<placeRedTroops>().troopsPlaced = false;
+		this.GetComponent<placeBlueTroops>().troopsPlaced = false;
+	}
+		
+	
+	public void highlightHexes(string theColor)
+	{
+		if(theColor == "red")
+		{
+			for(int i = 0; i < 3; i++)
 			{
-				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
-					string selectedGeneral = "";
-					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<combatHexEvents>().redGeneralOnMe == true)
-					{
-						selectedGeneral = "red";
-					}
-					
-					Debug.Log ("Moving General");
-					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1]) + new Vector3(0,0.5f,0)));
-					generalMoved = true;
+				for(int j = 0; j < gridHeightInHexes; j++)
+				{
+					hexArray[i,j].GetComponent<combatHexEvents>().highlightLR();
 				}
-				else Debug.Log ("Invalid Move");
-			
-				selectedHexes.Clear();
-				deselectAll();
-				
 			}
 		}
-		else if(whoseTurn == "blue")
+		else if (theColor == "blue")
 		{
-			if(selectedHexes.Count == 2)
+			for(int i = gridWidthInHexes - 3; i < gridWidthInHexes; i++)
 			{
-				if(calculateHexDistance(selectedHexes[0],selectedHexes[1]) <= 6 && !generalMoved) {
-					string selectedGeneral = "";
-					if(hexArray[(int)selectedHexes[0].x,(int)selectedHexes[0].y].GetComponent<combatHexEvents>().blueGeneralOnMe == true)
-					{
-						selectedGeneral = "blue";
-					}
-					
-					Debug.Log ("Moving General");
-					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1]) + new Vector3(0,0.5f,0)));
-					generalMoved = true;					
+				for(int j = 0; j < gridHeightInHexes; j++)
+				{
+					hexArray[i,j].GetComponent<combatHexEvents>().highlightLB();
 				}
-				else Debug.Log ("Invalid Move");
-			
-				selectedHexes.Clear();
-				deselectAll();
 			}
-		}*/
+		}
 	}
 	
 	void Update()
 	{
 				
-	}
-	
-	IEnumerator camLerp(Vector3 movePos)
-	{
-		while(Camera.main.transform.position != movePos)
-		{
-			Camera.main.transform.position = Vector3.MoveTowards (Camera.main.transform.position, movePos, 50 * Time.deltaTime);
-			yield return null;
-		}
 	}
 
 }

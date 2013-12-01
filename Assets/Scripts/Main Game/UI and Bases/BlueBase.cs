@@ -84,17 +84,17 @@ public class BlueBase : MonoBehaviour {
 					for(int i = 0; i < blueGeneral.GetComponent<GeneralUnits>().units.Length; i++)
 					{
 						generalContent[i] = GUIContent.none;
-						if(blueGeneral.GetComponent<GeneralUnits>().units[i] != null)
+						if(blueGeneral.GetComponent<GeneralUnits>().unitNames[i] != null)
 						{
-							switch(blueGeneral.GetComponent<GeneralUnits>().units[i].name)
+							switch(blueGeneral.GetComponent<GeneralUnits>().unitNames[i])
 							{
-								case "Blue Grunt":
+								case "Blue Grunt(Clone)":
 									generalContent[i] = new GUIContent("Grunt"); //Add image here.
 									break;
-								case "Blue Tank":
+								case "Blue Tank(Clone)":
 									generalContent[i] = new GUIContent("Tank");
 									break;
-								case "Blue Plane":
+								case "Blue Plane(Clone)":
 									generalContent[i] = new GUIContent("Plane");
 									break;
 							}
