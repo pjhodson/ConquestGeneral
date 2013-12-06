@@ -39,9 +39,13 @@ public class BoardMaker : MonoBehaviour {
 	
 	public bool redEnterBase, blueEnterBase;
 	
+	private bool idiotStartMessages;
+	
 	//The grid should be generated on game start
     void Awake()
     {
+		idiotStartMessages = true;
+		
 		redGeneralHome = redGeneralBlueBase = blueGeneralHome = blueGeneralRedBase = false;
 		inCombat = false;
 		combatCamMoved = false;
@@ -91,10 +95,14 @@ public class BoardMaker : MonoBehaviour {
 		
 		RedGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		BlueGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+	}
+	
+	void Start()
+	{
 		
 		if(playerTurn == 2)
 		{
-			StartCoroutine(camLerp(new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z)));
+			Camera.main.transform.position = new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z);
 		}
 	}
 		
@@ -326,11 +334,8 @@ public class BoardMaker : MonoBehaviour {
 	
 	IEnumerator camLerp(Vector3 movePos)
 	{
-		while(Camera.main.transform.position != movePos)
-		{
-			Camera.main.transform.position = Vector3.MoveTowards (Camera.main.transform.position, movePos, 50 * Time.deltaTime);
-			yield return null;
-		}
+		Camera.main.transform.position = movePos;
+		yield return null;
 	}
 	
 	public int getPlayerTurn()
@@ -345,6 +350,24 @@ public class BoardMaker : MonoBehaviour {
 	
 	//GUI STUFF
 	void OnGUI() {
+		
+		if(idiotStartMessages)
+		{
+			
+			if(playerTurn == 1)
+			{
+				Vector3 toScreenPoint = Camera.main.WorldToScreenPoint(RedGeneral.transform.position);
+				GUI.Label (new Rect(toScreenPoint.x -330, Screen.height - toScreenPoint.y, 300, 60),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
+			}
+			else if (playerTurn == 2)
+			{
+				Vector3 toScreenPoint = Camera.main.WorldToScreenPoint(BlueGeneral.transform.position);
+				GUI.Label (new Rect(toScreenPoint.x + 30, Screen.height - toScreenPoint.y, 300, 60),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
+			}
+			
+		}
+		
+		
 		string turnNotifier;
 		if(playerTurn == 1)
 		{
@@ -413,6 +436,7 @@ public class BoardMaker : MonoBehaviour {
 			
 		
 		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
+			idiotStartMessages = false;
 			if(playerTurn == 1)
 			{
 				playerTurn = 2;

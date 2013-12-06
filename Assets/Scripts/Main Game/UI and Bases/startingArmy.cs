@@ -54,14 +54,16 @@ public class startingArmy : MonoBehaviour {
 		
 		if(gameStart)
 		{
+			
 			GUI.BeginGroup(new Rect(0,0,Screen.width,Screen.height));
 				GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),blackPixel);
+				GUI.Label (new Rect(Screen.width/2 - 200, 0,400,50), "Pick your starting troops here. You can pay for units with your 30HP. They are added to your general. You are allowed one plane to begin.");
 				GUI.BeginGroup (new Rect(Screen.width/4,Screen.height/2 - Screen.height/4,Screen.width/2,280));
 				
 				GUI.Box (new Rect(0,0,Screen.width/4,250), "Red Starting Army");
 					GUI.Label (new Rect(0,20,Screen.width/4,30),redHP.ToString());
 			
-					if(redHP < gruntCost){
+					if(redHP < gruntCost || redGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(0,50,Screen.width/4,50), "Add Grunt (-" + gruntCost.ToString() + ")") && redHP >= gruntCost)
@@ -72,7 +74,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					GUI.enabled = true;
 			
-					if(redHP < tankCost){
+					if(redHP < tankCost || redGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(0,105,Screen.width/4,50), "Add Tank (-" + tankCost.ToString() + ")") && redHP >= tankCost)
@@ -83,7 +85,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					GUI.enabled = true;
 			
-					if(redPlane || redHP < laBombaCost){
+					if(redPlane || redHP < laBombaCost || redGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(0,160,Screen.width/4,50), "Add Plane (-" + laBombaCost.ToString() + ")") && redHP >= laBombaCost && !redPlane)
@@ -100,7 +102,7 @@ public class startingArmy : MonoBehaviour {
 				GUI.Box (new Rect(Screen.width/4,0,Screen.width/4,250), "Blue Starting Army");
 					GUI.Label (new Rect(Screen.width/4,20,Screen.width/4,30),blueHP.ToString());
 			
-					if(blueHP < gruntCost){
+					if(blueHP < gruntCost || blueGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(Screen.width/4,50,Screen.width/4,50), "Add Grunt (-" + gruntCost.ToString() + ")") && blueHP >= gruntCost)
@@ -111,7 +113,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					GUI.enabled = true;
 			
-					if(blueHP < tankCost){
+					if(blueHP < tankCost || blueGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(Screen.width/4,105,Screen.width/4,50), "Add Tank (-" + tankCost.ToString() + ")") && blueHP >= tankCost)
@@ -122,7 +124,7 @@ public class startingArmy : MonoBehaviour {
 					}
 					GUI.enabled = true;
 			
-					if(bluePlane || blueHP < laBombaCost){
+					if(bluePlane || blueHP < laBombaCost || blueGeneralUnits.isFull()){
 						GUI.enabled = false;
 					}
 					if(GUI.Button (new Rect(Screen.width/4,160,Screen.width/4,50), "Add Plane (-" + laBombaCost.ToString() + ")") && blueHP >= laBombaCost && !bluePlane)
@@ -140,7 +142,10 @@ public class startingArmy : MonoBehaviour {
 						gameStart = false;
 					}
 					
-					if(redHP < gruntCost && blueHP < gruntCost)
+					if(redHP < gruntCost && blueHP < gruntCost || 
+					(redGeneralUnits.isFull() && blueGeneralUnits.isFull()) ||
+					(redGeneralUnits.isFull () && blueHP < gruntCost) ||
+					(redHP < gruntCost && blueGeneralUnits.isFull()))
 					{
 						if(GUI.Button (new Rect(0,250,Screen.width/2,30), "FIGHT"))
 						{

@@ -67,6 +67,7 @@ public class RedBase : MonoBehaviour {
 		{
 			GUI.BeginGroup(new Rect(20,20,Screen.width-40,Screen.height-40));
 				GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),redPixel);
+				GUI.Label (new Rect(Screen.width/2-300,0,600,60),"Click the buttons on the left to select a building. Once they're built, you can click them to train units.");
 				GUI.BeginGroup (new Rect(20,20,Screen.width-60,Screen.height-60));
 				
 				if(GUI.Button (new Rect(Screen.width - 180, Screen.height - 110,100,30),"EXIT"))
