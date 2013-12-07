@@ -9,10 +9,11 @@ public class mainMenu : MonoBehaviour {
 	public GUIContent[] menuContent;
 	
 	private GUIStyle centeredText;
+	private bool howTo;
 	
 	// Use this for initialization
 	void Start () {
-		
+		howTo = false;
 	}
 	
 	// Update is called once per frame
@@ -40,6 +41,17 @@ public class mainMenu : MonoBehaviour {
 			}
 			GUI.Label (new Rect(Screen.width/2 - 200, Screen.height - 30, 400, 36), GUI.tooltip, centeredText);
 		}
+		
+		if (howTo == true)
+		{
+			GUI.Box (new Rect(20, 20, Screen.width - 40, Screen.height - 40), "How To Play");
+			GUI.Label (new Rect (30, 50, Screen.width - 60, Screen.height - 100), "Add how to play");
+			
+			if (GUI.Button (new Rect (Screen.width/4 * 3, Screen.height - 60, 150, 30), "Exit"))
+			{
+				howTo = false;
+			}
+		}
 	}
 	void handleMenu(int i)
 	{
@@ -50,6 +62,7 @@ public class mainMenu : MonoBehaviour {
 			break;
 		case 1: //how-to
 			Debug.Log ("COMING SOON");
+			howTo = true;
 			break;
 		case 2:
 			Application.Quit();
