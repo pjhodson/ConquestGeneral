@@ -34,13 +34,13 @@ public class CameraManager : MonoBehaviour {
 			botConstraint = theBoard.calcWorldCoord(new Vector2(0,theBoard.gridHeightInHexes-1)).z;
 		}
 		
-		else if (theBoard.inCombat)
+		/*else if (theBoard.inCombat)
 		{
 			rightConstraint = theCombatBoard.calcWorldCoord(new Vector2(theCombatBoard.gridWidthInHexes-1,0)).x;
 			leftConstraint = theCombatBoard.calcWorldCoord (new Vector2(0,0)).x;
 			topConstraint = theCombatBoard.calcWorldCoord(new Vector2(0,0)).z;
 			botConstraint = theCombatBoard.calcWorldCoord(new Vector2(0,theCombatBoard.gridHeightInHexes-1)).z;
-		}
+		}*/
 		
 		//NOTE SCREEN MEASURED 0,0 IN BOTTOM LEFT
 		

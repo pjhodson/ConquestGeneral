@@ -323,12 +323,21 @@ public class BoardMaker : MonoBehaviour {
 				moveHandler ("red");
 			}
 			else moveHandler ("blue");	
+			
 		
-			if(inCombat && !combatCamMoved)
+			if(redGeneralBlueBase || blueGeneralRedBase)
 			{
-				Debug.Log ("LERPY LERP LERP");
+				string youWon;
+				if(redGeneralBlueBase) youWon = "Red";
+				else youWon = "Blue";
+				GameObject.Find ("A stupid and essentially useless game object that will persist to win state to let new level know who won.").GetComponent<winner>().theWinner = youWon;
+				Application.LoadLevel ("grats");
+			}
+			if(inCombat)
+			{
+				/*Debug.Log ("LERPY LERP LERP");
 				StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
-				combatCamMoved = true;
+				combatCamMoved = true;*/
 			}
 	}
 	
@@ -357,12 +366,12 @@ public class BoardMaker : MonoBehaviour {
 			if(playerTurn == 1)
 			{
 				Vector3 toScreenPoint = Camera.main.WorldToScreenPoint(RedGeneral.transform.position);
-				GUI.Label (new Rect(toScreenPoint.x -330, Screen.height - toScreenPoint.y, 300, 60),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
+				GUI.Label (new Rect(toScreenPoint.x -330, Screen.height - toScreenPoint.y, 300, 100),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
 			}
 			else if (playerTurn == 2)
 			{
 				Vector3 toScreenPoint = Camera.main.WorldToScreenPoint(BlueGeneral.transform.position);
-				GUI.Label (new Rect(toScreenPoint.x + 30, Screen.height - toScreenPoint.y, 300, 60),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
+				GUI.Label (new Rect(toScreenPoint.x + 30, Screen.height - toScreenPoint.y, 300, 100),"Click the Hex beneath the general to select him. Then click any highlighted hex to move there. You only get one move per turn. Be careful!");
 			}
 			
 		}
@@ -379,17 +388,17 @@ public class BoardMaker : MonoBehaviour {
 		GUI.Label (new Rect(Screen.width/4+10, 0, 100,25), turnNotifier);
 		GUI.Label (new Rect(Screen.width/4+110, 0, 100,25), "Turn " + turnNumber.ToString ());
 		
-		if(redGeneralHome && playerTurn == 1)
+		if(redGeneralHome && playerTurn == 1 || inCombat && playerTurn == 1)
 		{
-			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50), "Enter Base"))
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-100,100,50), "Enter Base"))
 			{
 				redEnterBase = true;
 			}
 		}
 		
-		if(blueGeneralHome && playerTurn == 2)
+		if(blueGeneralHome && playerTurn == 2 || inCombat && playerTurn == 2)
 		{
-			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50),"Enter Base"))
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-100,100,50),"Enter Base"))
 			{
 				blueEnterBase = true;
 			}
@@ -397,11 +406,17 @@ public class BoardMaker : MonoBehaviour {
 		
 		if(inCombat)
 		{
-			if(GUI.Button (new Rect(Screen.width-100, Screen.height-125,100,50),"Retreat"))
+			if(GUI.Button (new Rect(Screen.width-100, Screen.height-150,100,50),"Retreat"))
 			{
-				BlueGeneral.transform.position = calcWorldCoord(new Vector2(gridWidthInHexes-1,gridHeightInHexes -1)) + new Vector3(0,0.5f,0);
-				RedGeneral.transform.position = calcWorldCoord(new Vector2(0,0))+ new Vector3(0,0.5f,0);
-								
+				if(playerTurn == 2) 
+				{
+					BlueGeneral.transform.position = calcWorldCoord(new Vector2(gridWidthInHexes-1,gridHeightInHexes -1)) + new Vector3(0,0.5f,0);
+				}
+				else if(playerTurn == 1)
+				{
+					RedGeneral.transform.position = calcWorldCoord(new Vector2(0,0))+ new Vector3(0,0.5f,0);
+				}
+				
 				RedGeneral.rigidbody.detectCollisions = true;
 				RedGeneral.rigidbody.isKinematic = false;
 				BlueGeneral.rigidbody.detectCollisions = true;
@@ -410,7 +425,7 @@ public class BoardMaker : MonoBehaviour {
 				combatCamMoved = false;
 				inCombat = false;
 				
-				theCombatBoard.returnUnits();
+				//theCombatBoard.returnUnits();
 				
 				if(playerTurn == 1)
 				{
@@ -436,6 +451,10 @@ public class BoardMaker : MonoBehaviour {
 			
 		
 		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
+			if(inCombat)
+			{
+				GameObject.Find ("Combat Cop Out").GetComponent<combatGUI>().resetAllOnTurnEnd();
+			}
 			idiotStartMessages = false;
 			if(playerTurn == 1)
 			{
@@ -453,7 +472,7 @@ public class BoardMaker : MonoBehaviour {
 					StartCoroutine(camLerp(new Vector3(RedGeneral.transform.position.x, Camera.main.transform.position.y, RedGeneral.transform.position.z)));
 				}
 			}
-			theCombatBoard.deselectAll();
+			//theCombatBoard.deselectAll();
 			turnNumber++;
 			generalMoved = false; //set general back to being able to move
 		}

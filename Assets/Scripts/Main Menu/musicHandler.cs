@@ -8,24 +8,21 @@ public class musicHandler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Application.runInBackground = true;
-		DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(transform.root.gameObject);
 		audio.clip = songs[0];
 		audio.Play ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if(!audio.isPlaying)
 		{
 			audio.clip = songs[Random.Range (0,songs.Length - 1)];
 			audio.Play();
 		}
+		
+		this.transform.position = Camera.main.transform.position;
+		
 	
-	}
-	
-	void OnLevelWasLoaded(int level)
-	{
-		this.transform.parent = Camera.main.transform;
-		this.transform.localPosition = new Vector3(0,0,0);
 	}
 }

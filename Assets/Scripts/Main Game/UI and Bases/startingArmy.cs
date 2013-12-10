@@ -57,7 +57,7 @@ public class startingArmy : MonoBehaviour {
 			
 			GUI.BeginGroup(new Rect(0,0,Screen.width,Screen.height));
 				GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),blackPixel);
-				GUI.Label (new Rect(Screen.width/2 - 200, 0,400,50), "Pick your starting troops here. You can pay for units with your 30HP. They are added to your general. You are allowed one plane to begin.");
+				GUI.Label (new Rect(Screen.width/2 - 300, 0,600,75), "Pick your starting troops here. You can pay for units with your 30HP. They are added to your general. You are allowed one plane to begin.");
 				GUI.BeginGroup (new Rect(Screen.width/4,Screen.height/2 - Screen.height/4,Screen.width/2,280));
 				
 				GUI.Box (new Rect(0,0,Screen.width/4,250), "Red Starting Army");

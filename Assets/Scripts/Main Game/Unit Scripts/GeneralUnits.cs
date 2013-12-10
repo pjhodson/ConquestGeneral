@@ -38,6 +38,7 @@ public class GeneralUnits : MonoBehaviour {
 
 	public void removeUnit(int unitRemoved)
 	{
+		Destroy(units[unitRemoved]);
 		units[unitRemoved] = null;
 		unitNames[unitRemoved] = null;
 		Array.Sort(units, delegate(GameObject go1, GameObject go2) 

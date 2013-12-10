@@ -2866,6 +2866,7 @@ GameObject:
   - 4: {fileID: 400322}
   - 114: {fileID: 11400000}
   - 135: {fileID: 13500000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Blue Grunt
   m_TagString: Untagged
@@ -5281,6 +5282,21 @@ MonoBehaviour:
   meleeDieVal: 0
   rangedDieVal: 0
   selected: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8312c913f8bf8ab408ea0afd8d4887aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 3
+  dmgDie: 4
+  unitName: Grunt
+  unitImage: {fileID: 2800000, guid: c066a40a6575b8e4e9d341a847e568b7, type: 3}
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

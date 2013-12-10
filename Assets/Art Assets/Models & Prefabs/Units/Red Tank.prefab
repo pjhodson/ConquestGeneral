@@ -28,6 +28,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Red Tank
   m_TagString: Untagged
@@ -150,6 +151,21 @@ MonoBehaviour:
   rangedLandDieVal: 0
   rangedAirDieVal: 0
   selected: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8312c913f8bf8ab408ea0afd8d4887aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 6
+  dmgDie: 6
+  unitName: Tank
+  unitImage: {fileID: 2800000, guid: 2d93b9107c7a1c84da79f093e4bedcfb, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

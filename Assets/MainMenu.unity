@@ -5754,12 +5754,12 @@ AudioSource:
   Loop: 0
   Mute: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
@@ -5781,7 +5781,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -7099,7 +7099,7 @@ MonoBehaviour:
     m_Tooltip: Click Here To Play.
   - m_Text: HOW TO PLAY
     m_Image: {fileID: 0}
-    m_Tooltip: RTFM.
+    m_Tooltip: Learn How to Play.
   - m_Text: QUIT
     m_Image: {fileID: 0}
     m_Tooltip: Click Here To Quit.
