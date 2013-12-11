@@ -37,6 +37,8 @@ public class GeneralEvents : MonoBehaviour {
 			general.gameObject.rigidbody.isKinematic = true;
 			boardInfo.inCombat = true;
 		}
+		
+	
 	}
 	
 	void OnTriggerEnter(Collider collision)
@@ -59,6 +61,18 @@ public class GeneralEvents : MonoBehaviour {
 		{
 			boardInfo.blueGeneralRedBase = true;
 		}
+		
+		if(collision.gameObject.tag == "ADP")
+		{
+			this.GetComponent<GeneralUnits>().addADToAll();
+			Destroy (collision.gameObject);
+		}
+		if(collision.gameObject.tag == "HPP")
+		{
+			this.GetComponent<GeneralUnits>().addHPToAll();
+			Destroy (collision.gameObject);
+		}
+		
 	}
 	
 	void OnTriggerExit()

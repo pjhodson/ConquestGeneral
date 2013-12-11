@@ -25,4 +25,12 @@ public class musicHandler : MonoBehaviour {
 		
 	
 	}
+	
+	void OnLevelWasLoaded(int level)
+	{
+		if(GameObject.Find ("Musician") != null && level == 0)
+		{
+			Destroy (this.gameObject);
+		}
+	}
 }

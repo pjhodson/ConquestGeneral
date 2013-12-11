@@ -18,6 +18,10 @@ public class winner : MonoBehaviour {
 	
 	void OnLevelWasLoaded(int level)
 	{
+		if(level == 0)
+		{
+			Destroy (this.gameObject);
+		}
 		if(level == 2)
 		{
 			displayMessage = true;

@@ -19,6 +19,28 @@ public class GeneralUnits : MonoBehaviour {
 	void Update () {
 	}
 	
+	public void addHPToAll()
+	{
+		for(int i = 0; i < counter; i++)
+		{
+			if(units[i] != null)
+			{
+				units[i].GetComponent<attributes>().hp += 1;	
+			}
+		}
+	}
+	
+	public void addADToAll()
+	{
+		for(int i = 0; i < counter; i++)
+		{
+			if(units[i] != null)
+			{
+				units[i].GetComponent<attributes>().dmgMod += 1;	
+			}
+		}
+	}
+	
 	
 	public void addUnit(GameObject unit)
 	{

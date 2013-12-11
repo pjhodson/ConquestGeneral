@@ -9,7 +9,11 @@ public class BoardMaker : MonoBehaviour {
     public GameObject Hex;
 	public GameObject General;
 	public GameObject Base;
-	public CombatBoard theCombatBoard;
+	
+	public int numHPPower, numADPower;
+	public GameObject HPPower, ADPower;
+	
+	//public CombatBoard theCombatBoard;
 	
 	private int playerTurn;
 	private int turnNumber;
@@ -35,20 +39,27 @@ public class BoardMaker : MonoBehaviour {
 	public bool redGeneralHome,redGeneralBlueBase,blueGeneralHome,blueGeneralRedBase;
 	
 	public bool inCombat;
-	private bool combatCamMoved;
+	//private bool combatCamMoved;
 	
 	public bool redEnterBase, blueEnterBase;
 	
 	private bool idiotStartMessages;
 	
+	private bool displayInvalid, displaySupply;
+	private bool suppliesDropped;
+	private bool displayMenu;
+	
 	//The grid should be generated on game start
     void Awake()
     {
 		idiotStartMessages = true;
+		displayInvalid = displaySupply = false;
+		suppliesDropped = false;
+		displayMenu = false;
 		
 		redGeneralHome = redGeneralBlueBase = blueGeneralHome = blueGeneralRedBase = false;
 		inCombat = false;
-		combatCamMoved = false;
+		//combatCamMoved = false;
 		
 		redEnterBase = false;
 		blueEnterBase = false;
@@ -69,6 +80,8 @@ public class BoardMaker : MonoBehaviour {
         createGrid();
 		
 		
+		supplyDrop();
+		
 		//Instantiate Generals
 		RedGeneral = (GameObject)Instantiate (General,calcWorldCoord (new Vector2(0,0))+ new Vector3(0,0.5f,0),Quaternion.identity);
 		RedGeneral.name = "Red General";
@@ -86,12 +99,12 @@ public class BoardMaker : MonoBehaviour {
 		RedBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(1,1)) + new Vector3(0,.8f,0),Quaternion.identity);
 		RedBase.name = "Red Base";
 		RedBase.tag = "red base";
-		RedBase.renderer.material.color = Color.red;
+		RedBase.renderer.material.color = new Color(.5f,0,0,0);
 		
 		BlueBase = (GameObject)Instantiate (Base,calcWorldCoord (new Vector2(gridWidthInHexes - 2, gridHeightInHexes -2)) + new Vector3(0,.8f,0),Quaternion.identity);
 		BlueBase.name = "Blue Base";
 		BlueBase.tag = "blue base";
-		BlueBase.renderer.material.color = Color.blue;
+		BlueBase.renderer.material.color = new Color(0,0,.5f,0);
 		
 		RedGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 		BlueGeneral.rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -104,6 +117,21 @@ public class BoardMaker : MonoBehaviour {
 		{
 			Camera.main.transform.position = new Vector3(BlueGeneral.transform.position.x, Camera.main.transform.position.y, BlueGeneral.transform.position.z);
 		}
+	}
+	
+	void supplyDrop()
+	{
+		if(suppliesDropped) return;
+		//POWERUP SPAWNING
+		for(int i = 0; i < numHPPower; i++)
+		{
+			Instantiate (HPPower, calcWorldCoord( new Vector2(Random.Range (7,gridWidthInHexes - 7), Random.Range (0, gridHeightInHexes))) + new Vector3(0,0.5f,0), Quaternion.Euler(0,180,0)); //This has the potential to spawn powerups in the same square.
+		}
+		for(int i = 0; i < numADPower; i++)
+		{
+			Instantiate (ADPower, calcWorldCoord( new Vector2(Random.Range (7,gridWidthInHexes - 7), Random.Range (0, gridHeightInHexes))) + new Vector3(0,0.5f,0), Quaternion.Euler(0,180,0)); //This has the potential to spawn powerups in the same square.
+		}
+		suppliesDropped = true;
 	}
 		
     //Method to initialise Hexagon width and height
@@ -201,22 +229,25 @@ public class BoardMaker : MonoBehaviour {
 		if(selectedHexes.Count == 0 && 
 			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<HexEvents>().redGeneralOnMe == true) && playerTurn == 1 && !generalMoved)
 			{
+				
 				selectedHexes.Add (SelectedCoords);
 				highlightMoves(SelectedCoords);
 			}
 		else if(selectedHexes.Count == 0 &&
 			(hexArray[(int)SelectedCoords.x,(int)SelectedCoords.y].GetComponent<HexEvents>().blueGeneralOnMe == true) && playerTurn == 2 && !generalMoved)
 			{
+				
 				selectedHexes.Add (SelectedCoords);
 				highlightMoves(SelectedCoords);
 			}
 		else if(selectedHexes.Count > 0)
 		{
+			
 			selectedHexes.Add (SelectedCoords);
 		}
 		else
 		{
-			Debug.Log ("Invalid Move");
+			displayInvalid = true;
 			deselectAll();
 		}
 	}
@@ -256,8 +287,6 @@ public class BoardMaker : MonoBehaviour {
 		}
 		else General = BlueGeneral;
 		
-		Debug.Log (which.name);
-		
 		while(General.transform.position != movePos)
 		{
 			General.transform.position = Vector3.MoveTowards (General.transform.position, movePos, 10 * Time.deltaTime);
@@ -281,11 +310,10 @@ public class BoardMaker : MonoBehaviour {
 						RedGeneral.GetComponent<GeneralEvents>().myCoords = selectedHexes[1];
 					}
 					
-					Debug.Log ("Moving General");
 					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1])+ new Vector3(0,0.5f,0)));
 					generalMoved = true;
 				}
-				else Debug.Log ("Invalid Move");
+				else displayInvalid = true;
 			
 				selectedHexes.Clear();
 				deselectAll();
@@ -304,11 +332,10 @@ public class BoardMaker : MonoBehaviour {
 						BlueGeneral.GetComponent<GeneralEvents>().myCoords = selectedHexes[1];
 					}
 					
-					Debug.Log ("Moving General");
 					StartCoroutine (moveGeneral(selectedGeneral, calcWorldCoord(selectedHexes[1])+ new Vector3(0,0.5f,0)));
 					generalMoved = true;					
 				}
-				else Debug.Log ("Invalid Move");
+				else displayInvalid = true;
 			
 				selectedHexes.Clear();
 				deselectAll();
@@ -318,27 +345,39 @@ public class BoardMaker : MonoBehaviour {
 	
 	void Update()
 	{
-			if(playerTurn == 1) 
-			{
-				moveHandler ("red");
-			}
-			else moveHandler ("blue");	
-			
+		if(playerTurn == 1) 
+		{
+			moveHandler ("red");
+		}
+		else moveHandler ("blue");	
 		
-			if(redGeneralBlueBase || blueGeneralRedBase)
-			{
-				string youWon;
-				if(redGeneralBlueBase) youWon = "Red";
-				else youWon = "Blue";
-				GameObject.Find ("A stupid and essentially useless game object that will persist to win state to let new level know who won.").GetComponent<winner>().theWinner = youWon;
-				Application.LoadLevel ("grats");
+		if (turnNumber % 15 == 0)
+		{
+			if(!suppliesDropped){
+				displaySupply = true;
 			}
-			if(inCombat)
-			{
-				/*Debug.Log ("LERPY LERP LERP");
-				StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
-				combatCamMoved = true;*/
-			}
+			supplyDrop();
+			StartCoroutine(removeSupplyAfter3());
+		}
+		if(turnNumber % 15 == 14)
+		{
+			suppliesDropped = false;
+		}
+			
+		if(redGeneralBlueBase || blueGeneralRedBase)
+		{
+			string youWon;
+			if(redGeneralBlueBase) youWon = "Red";
+			else youWon = "Blue";
+			GameObject.Find ("A stupid and essentially useless game object that will persist to win state to let new level know who won.").GetComponent<winner>().theWinner = youWon;
+			Application.LoadLevel ("grats");
+		}
+		if(inCombat)
+		{
+			/*Debug.Log ("LERPY LERP LERP");
+			StartCoroutine(camLerp (new Vector3(theCombatBoard.calcWorldCoord(new Vector2(0,0)).x, Camera.main.transform.position.y, theCombatBoard.calcWorldCoord(new Vector2(0,0)).z)));
+			combatCamMoved = true;*/
+		}
 	}
 	
 	IEnumerator camLerp(Vector3 movePos)
@@ -357,9 +396,32 @@ public class BoardMaker : MonoBehaviour {
 		return turnNumber;
 	}
 	
+	IEnumerator removeInvalidAfter3()
+	{
+		yield return new WaitForSeconds(3.0f);
+		displayInvalid = false;
+	}
+	
+	IEnumerator removeSupplyAfter3()
+	{
+		yield return new WaitForSeconds(3.0f);
+		displaySupply = false;
+	}
+	
 	//GUI STUFF
 	void OnGUI() {
-		
+		if(displayInvalid)
+		{
+			GUI.Box (new Rect(Screen.width/2 - 200, Screen.height - 30, 400, 30), "");
+			GUI.Label (new Rect(Screen.width/2 - 200, Screen.height - 30, 400, 30), "INVALID MOVE");
+			StartCoroutine (removeInvalidAfter3());
+		}
+		if(displaySupply)
+		{
+			GUI.Box (new Rect(Screen.width/2 - 200, Screen.height - 30, 400, 30), "");
+			GUI.Label (new Rect(Screen.width/2 - 200, Screen.height - 30, 400, 30), "SUPPLY DROP!");
+			//StartCoroutine (removeSupplyAfter3());
+		}
 		if(idiotStartMessages)
 		{
 			
@@ -376,6 +438,30 @@ public class BoardMaker : MonoBehaviour {
 			
 		}
 		
+		if(GUI.Button (new Rect(0,0,150,30),"MENU"))
+		{
+			displayMenu = true;
+		}
+		
+		if(displayMenu)
+		{
+			GUI.BeginGroup(new Rect(Screen.width/2- 100, Screen.height/2 - 150, 200, 300));
+			GUI.Box (new Rect(0, 0, 200, 300), "CONQUEST GENERAL");
+			if(GUI.Button (new Rect(25,50,150, 30), "MAIN MENU"))
+			{
+				Application.LoadLevel("MainMenu");
+			}
+			if(GUI.Button (new Rect(25,85,150,30), "QUIT"))
+			{
+				Application.Quit();
+			}
+			
+			if(GUI.Button (new Rect(25, 200,150,30), "RETURN TO GAME"))
+			{
+				displayMenu = false;
+			}
+			GUI.EndGroup();
+		}
 		
 		string turnNotifier;
 		if(playerTurn == 1)
@@ -422,7 +508,7 @@ public class BoardMaker : MonoBehaviour {
 				BlueGeneral.rigidbody.detectCollisions = true;
 				BlueGeneral.rigidbody.isKinematic = false;
 				
-				combatCamMoved = false;
+				//combatCamMoved = false;
 				inCombat = false;
 				
 				//theCombatBoard.returnUnits();
@@ -451,6 +537,7 @@ public class BoardMaker : MonoBehaviour {
 			
 		
 		if(GUI.Button (new Rect(Screen.width-100, Screen.height-50,100,50), "End Turn")){
+			displayInvalid = false;
 			if(inCombat)
 			{
 				GameObject.Find ("Combat Cop Out").GetComponent<combatGUI>().resetAllOnTurnEnd();
@@ -476,6 +563,6 @@ public class BoardMaker : MonoBehaviour {
 			turnNumber++;
 			generalMoved = false; //set general back to being able to move
 		}
-	
+		
 	}
 }

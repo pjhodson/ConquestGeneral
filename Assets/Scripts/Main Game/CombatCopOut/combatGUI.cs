@@ -105,6 +105,7 @@ public class combatGUI : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		GUI.depth  = 10;
 		if(boardInfo.inCombat)
 		{
 				//RED SIDE
@@ -280,11 +281,11 @@ public class combatGUI : MonoBehaviour {
 					}
 						damageDealt = true;
 				}
-				GUI.Label (new Rect(Screen.width/2 - 200, Screen.height - 100,400,30),"Attacker deals " + damage.ToString() + " damage to defender.");
+				GUI.Label (new Rect(Screen.width/2 - 300, Screen.height - 120,600,60),"Attacker deals " + damage.ToString() + " damage to defender. End your turn.");
 			}
 			if(redUnitDestroyed || blueUnitDestroyed)
 			{
-				GUI.Label (new Rect(Screen.width/2 - 200, Screen.height - 100,400,30),"DEFENDER DESTROYED BY " + damage.ToString() + " DAMAGE FROM ATTACKER");
+				GUI.Label (new Rect(Screen.width/2 - 300, Screen.height - 120,600,60),"DEFENDER DESTROYED BY " + damage.ToString() + " DAMAGE FROM ATTACKER. End your turn.");
 			}
 			
 			

@@ -20,7 +20,7 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3e32ed440b238234fa62d200680a883c, type: 2}
   m_HaloStrength: .5
   m_FlareStrength: 1
   m_HaloTexture: {fileID: 0}
@@ -561,9 +561,12 @@ MonoBehaviour:
   Hex: {fileID: 100000, guid: 8a573aaf4e6978040805f2ff792605a1, type: 2}
   General: {fileID: 100000, guid: 35626e1821f392b4b9dd00688442d134, type: 2}
   PPtr<Object>: {fileID: 100000, guid: c538e64fe886f714a919b78e32fa4ba2, type: 2}
-  theCombatBoard: {fileID: 0}
-  gridWidthInHexes: 12
-  gridHeightInHexes: 6
+  numHPPower: 5
+  numADPower: 5
+  HPPower: {fileID: 100000, guid: ba720246426691043a9fd49a372b4b84, type: 2}
+  ADPower: {fileID: 100000, guid: cbb7757e5482d374db0ad9d14f969c10, type: 2}
+  gridWidthInHexes: 25
+  gridHeightInHexes: 15
   selectedHexes: []
   redGeneralHome: 0
   redGeneralBlueBase: 0

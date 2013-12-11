@@ -63,6 +63,7 @@ public class RedBase : MonoBehaviour {
 	}
 	
 	void OnGUI () {
+		GUI.depth = -10;
 		if(((boardInfo.redEnterBase && boardInfo.getPlayerTurn() == 1) || (baseClickedOn && boardInfo.getPlayerTurn() == 1)))
 		{
 			GUI.BeginGroup(new Rect(20,20,Screen.width-40,Screen.height-40));
@@ -158,7 +159,7 @@ public class RedBase : MonoBehaviour {
 					GUI.enabled = false;
 					
 					
-					if(selectedUnit > -1 && boardInfo.redGeneralHome && !redGeneral.GetComponent<GeneralUnits>().isFull()) //MAKE SURE THE GENERAL IS NOT FULL UP.
+					if(selectedUnit > -1 && boardInfo.redGeneralHome && !redGeneral.GetComponent<GeneralUnits>().isFull() && unitsOnBase[selectedUnit] != null) //MAKE SURE THE GENERAL IS NOT FULL UP.
 					{
 						unitContent[selectedUnit] = GUIContent.none;
 						redGeneral.GetComponent<GeneralUnits>().addUnit(unitsOnBase[selectedUnit]);
